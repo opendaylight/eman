@@ -1,0 +1,144 @@
+module odl-eman-util {
+
+  /*** NAMESPACE / PREFIX DEFINITION ***/
+  namespace "urn:opendaylight:params:xml:ns:yang:eman:util";
+  prefix "eman-util";
+
+  /*** LINKAGE (IMPORTS / INCLUDES) ***/
+  import yang-smi        { prefix "smi"; }
+
+  /*** META INFORMATION ***/
+  organization
+   "IETF Energy Management Working Group";
+
+  contact
+   "WG Email: eman@ietf.org
+    Mailing list subscription info:
+    http://www.ietf.org/mailman/listinfo/eman
+
+    George Adam
+    Comcast
+    1515 Wynkoop Street, Suite 200
+	Denver, CO. 80202
+    Phone: +1.917.763.3098
+    Email: george_adam@comcast.com";
+
+  description
+   "This yang module defines some utility typedefs
+	required by other yang files in the OpenDaylight
+	Energy Management (Eman) project. These typedefs
+	were unavilable in the jar files of a public
+	repository. The OwnerString typedef is from the
+	RMON-MIB (RFC 2819). The SnmpAdminString typedef
+	is from the SNMP-FRAMEWORK-MIB RFC 3411.
+
+    Copyright (c) 2016 IETF Trust and the persons
+    identified as authors of the code.  All rights
+    reserved.
+
+    Redistribution and use in source and binary forms,
+    with or without modification, is permitted
+    pursuant to, and subject to the license terms
+    contained in, the Simplified BSD License set forth
+    in Section 4.c of the IETF Trust's Legal
+    Provisions Relating to IETF Documents
+    (http://trustee.ietf.org/license-info).";
+
+  revision "2016-07-07" {
+    description
+     "Initial version of this yang file.";
+  }
+
+  /*** TYPE DEFINITIONS ***/
+  typedef SnmpAdminString {
+      type string {
+         length "0..255";
+         pattern ".{0,255}";
+      }
+      description
+        "An octet string containing administrative
+         information, preferably in human-readable form.
+
+         To facilitate internationalization, this
+         information is represented using the ISO/IEC
+         IS 10646-1 character set, encoded as an octet
+         string using the UTF-8 transformation format
+         described in [RFC2279].
+
+         Since additional code points are added by
+         amendments to the 10646 standard from time
+         to time, implementations must be prepared to
+         encounter any code point from 0x00000000 to
+         0x7fffffff.  Byte sequences that do not
+         correspond to the valid UTF-8 encoding of a
+         code point or are outside this range are
+         prohibited.
+
+         The use of control codes should be avoided.
+
+         When it is necessary to represent a newline,
+         the control code sequence CR LF should be used.
+
+         The use of leading or trailing white space should
+         be avoided.
+
+         For code points not directly supported by user
+         interface hardware or software, an alternative
+         means of entry and display, such as hexadecimal,
+         may be provided.
+
+         For information encoded in 7-bit US-ASCII,
+         the UTF-8 encoding is identical to the
+         US-ASCII encoding.
+
+         UTF-8 may require multiple bytes to represent a
+         single character / code point; thus the length
+         of this object in octets may be different from
+         the number of characters encoded.  Similarly,
+         size constraints refer to the number of encoded
+         octets, not the number of characters represented
+         by an encoding.
+
+         Note that when this TC is used for an object that
+         is used or envisioned to be used as an index, then
+         a SIZE restriction MUST be specified so that the
+         number of sub-identifiers for any object instance
+         does not exceed the limit of 128, as defined by
+         [RFC3416].
+
+         Note that the size of an SnmpAdminString object is
+         measured in octets, not characters.";
+      smi:display-hint "255t";
+  }
+
+  typedef OwnerString {
+      type binary {
+         length "0..127";
+      }
+      description
+        "This data type is used to model an administratively
+         assigned name of the owner of a resource. Implementations
+         must accept values composed of well-formed NVT ASCII
+         sequences. In addition, implementations should accept
+         values composed of well-formed UTF-8 sequences.
+
+         It is suggested that this name contain one or more of
+         the following: IP address, management station name,
+         network manager's name, location, or phone number.
+         In some cases the agent itself will be the owner of
+         an entry.  In these cases, this string shall be set
+         to a string starting with 'monitor'.
+
+         SNMP access control is articulated entirely in terms
+         of the contents of MIB views; access to a particular
+         SNMP object instance depends only upon its presence
+         or absence in a particular MIB view and never upon
+         its value or the value of related object instances.
+         Thus, objects of this type afford resolution of
+         resource contention only among cooperating
+         managers; they realize no access control function
+         with respect to uncooperative parties.
+
+    	 Copyright (C) The Internet Society (2002).";
+  }
+} /* end of module odl-eman-util */

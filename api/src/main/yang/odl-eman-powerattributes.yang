@@ -1,0 +1,474 @@
+module odl-eman-powerattributes {
+
+  /*** NAMESPACE / PREFIX DEFINITION ***/
+  namespace "urn:ietf:params:xml:ns:yang:opendaylight:eman:powerattributes";
+  prefix "power-attributes";
+
+  /*** LINKAGE (IMPORTS / INCLUDES) ***/
+  import odl-eman-entity        { prefix "entity"; }
+  import odl-eman-energyobject  { prefix "energy-object"; }
+
+  /*** META INFORMATION ***/
+  organization
+   "IETF EMAN Working Group";
+
+  contact
+   "WG charter:
+    http://datatracker.ietf.org/wg/eman/charter/
+
+    Mailing Lists:
+    General Discussion: eman@ietf.org
+
+    To Subscribe:
+    https://www.ietf.org/mailman/listinfo/eman
+
+    Archive:
+    http://www.ietf.org/mail-archive/web/eman
+
+    Editors:
+
+    Mouli Chandramouli
+    Cisco Systems, Inc.
+    Sarjapur Outer Ring Road
+    Bangalore 560103
+    India
+    Phone: +91 80 4429 2409
+    Email: moulchan@cisco.com
+
+    Brad Schoening
+    44 Rivers Edge Drive
+    Little Silver, NJ 07739
+    United States
+    Email: brad.schoening@verizon.net
+
+    Juergen Quittek
+    NEC Europe Ltd.
+    NEC Laboratories Europe
+    Network Research Division
+    Kurfuersten-Anlage 36
+    Heidelberg  69115
+    Germany
+    Phone: +49 6221 4342-115
+    Email: quittek@neclab.eu
+
+    Thomas Dietz
+    NEC Europe Ltd.
+    NEC Laboratories Europe
+    Network Research Division
+    Kurfuersten-Anlage 36
+    69115 Heidelberg
+    Germany
+    Phone: +49 6221 4342-128
+    Email: Thomas.Dietz@nw.neclab.eu
+
+    Benoit Claise
+    Cisco Systems, Inc.
+    De Kleetlaan 6a b1
+    Degem 1831
+    Belgium
+    Phone:  +32 2 704 5622
+    Email: bclaise@cisco.com";
+
+  description
+   "Copyright (c) 2015 IETF Trust and the persons identified as
+    authors of the code.  All rights reserved.
+
+    Redistribution and use in source and binary forms, with or
+    without modification, is permitted pursuant to, and subject
+    to the license terms contained in, the Simplified BSD License
+    set forth in Section 4.c of the IETF Trust's Legal Provisions
+    Relating to IETF Documents
+    (http://trustee.ietf.org/license-info).
+
+    This MIB is used to report AC power attributes in devices.
+    The table is a sparse augmentation of the eoPowerTable table
+    from the energyObjectMib module.  Both three-phase and
+    single-phase power configurations are supported.
+
+    As a requirement for this MIB module, RFC 7461 SHOULD be
+    implemented.
+
+    Module Compliance of ENTITY-MIB v4 with respect to
+    entity4CRCompliance MUST be supported which requires
+    implementation of four MIB objects: entPhysicalIndex,
+    entPhysicalClass, entPhysicalName, and entPhysicalUUID.";
+
+  revision "2015-02-09" {
+    description
+     "Initial version, published as RFC 7460";
+  }
+
+  container powerAttributesMIBObjects {
+
+    /* XXX table comments here XXX */
+    list eoACPwrAttributesEntry {
+
+      key "entPhysicalIndex";
+      description
+       "This is a sparse extension of the eoPowerTable with
+        entries for power attributes measurements or
+        configuration.  Each measured value corresponds to an
+        attribute in IEC 61850-7-4 for non-phase measurements
+        within the object MMXN.";
+
+      /*** Was originally a keyref. ODL yangtools parser does not support keyref ***/
+      leaf entPhysicalIndex {
+        type leafref {
+          path "/entity:entityPhysical/entity:entPhysicalEntry/entity:entPhysicalIndex";
+        }
+        config false;
+        description
+         "Automagically generated keyref leaf.";
+      }
+
+      leaf eoACPwrAttributesConfiguration {
+        type enumeration {
+          enum sngl { value 1; }
+          enum del  { value 2; }
+          enum wye  { value 3; }
+        }
+        config false;
+        description
+         "Configuration describes the physical configurations of
+          the power supply lines:
+
+             * alternating current, single phase (SNGL)
+             * alternating current, three-phase delta (DEL)
+             * alternating current, three-phase Y (WYE)
+
+          Three-phase configurations can be either connected in a
+          triangular delta (DEL) or star Y (WYE) system.  WYE
+          systems have a shared neutral voltage, while DEL systems
+          do not.  Each phase is offset 120 degrees to each other.";
+      }
+
+      leaf eoACPwrAttributesAvgVoltage {
+        type int32;
+        units "0.1 Volt AC";
+        config false;
+        description
+         "A measured value for average of the voltage measured
+          over an integral number of AC cycles.  For a three-phase
+          system, this is the average voltage (V1+V2+V3)/3.  IEC
+          61850-7-4 measured value attribute 'Vol'.";
+      }
+
+      leaf eoACPwrAttributesAvgCurrent {
+        type uint32;
+        units "amperes";
+        config false;
+        description
+         "A measured value for average of the current measured
+          over an integral number of AC cycles.  For a three-phase
+          system, this is the average current (I1+I2+I3)/3.  IEC
+          61850-7-4 attribute 'Amp'.";
+      }
+
+      leaf eoACPwrAttributesFrequency {
+        type int32 {
+          range "4500..6500";
+        }
+        units "0.01 hertz";
+        config false;
+        description
+         "A measured value for the basic frequency of the AC
+          circuit.  IEC 61850-7-4 attribute 'Hz'.";
+      }
+
+      leaf eoACPwrAttributesPowerUnitMultiplier {
+        type energy-object:UnitMultiplier;
+        config false;
+        description
+         "The magnitude of watts for the usage value in
+          eoACPwrAttributesTotalActivePower,
+          eoACPwrAttributesTotalReactivePower,
+          and eoACPwrAttributesTotalApparentPower measurements.
+          For three-phase power systems, this will also include
+          eoACPwrAttributesWyeActivePower,
+          eoACPwrAttributesWyeReactivePower, and
+          eoACPwrAttributesWyeApparentPower.";
+      }
+
+      leaf eoACPwrAttributesPowerAccuracy {
+        type int32 {
+          range "0..10000";
+        }
+        units "hundredths of percent";
+        config false;
+        description
+         "This object indicates a percentage value, in hundredths of a
+          percent, representing the presumed accuracy of active,
+          reactive, and apparent power usage reporting.  For
+          example, 1010 means the reported usage is accurate to +/-
+          10.1 percent.  This value is zero if the accuracy is
+          unknown.
+
+          ANSI and IEC define the following accuracy classes for
+          power measurement: IEC 62053-22 & 60044-1 class 0.1, 0.2,
+          0.5, 1, & 3.
+          ANSI C12.20 class 0.2 & 0.5";
+      }
+
+      leaf eoACPwrAttributesTotalActivePower {
+        type int32;
+        units "watts";
+        config false;
+        description
+         "A measured value of the actual power delivered to or
+          consumed by the load.  IEC 61850-7-4 attribute 'TotW'.";
+      }
+
+      leaf eoACPwrAttributesTotalReactivePower {
+        type int32;
+        units "volt-amperes reactive";
+        config false;
+        description
+         "A measured value of the reactive portion of the apparent
+          power.  IEC 61850-7-4 attribute 'TotVAr'.";
+      }
+
+      leaf eoACPwrAttributesTotalApparentPower {
+        type int32;
+        units "volt-amperes";
+        config false;
+        description
+         "A measured value of the voltage and current that
+          determines the apparent power.  The apparent power is the
+          vector sum of real and reactive power.
+
+
+          Note: watts and volt-amperes are equivalent units and may
+          be combined.  IEC 61850-7-4 attribute 'TotVA'.";
+      }
+
+      leaf eoACPwrAttributesTotalPowerFactor {
+        type int32 {
+          range "-10000..10000";
+        }
+        units "hundredths";
+        config false;
+        description
+         "A measured value ratio of the real power flowing to the
+          load versus the apparent power.  It is dimensionless and
+          expressed here as a percentage value in hundredths.  A power
+          factor of 100% indicates there is no inductance load and
+          thus no reactive power.  A Power Factor can be positive or
+          negative, where the sign should be in lead/lag (IEEE)
+          form.  IEC 61850-7-4 attribute 'TotPF'.";
+      }
+
+      leaf eoACPwrAttributesThdCurrent {
+        type int32 {
+          range "0..10000";
+        }
+        units "hundredths of percent";
+        config false;
+        description
+         "A calculated value for the current total harmonic
+          distortion (THD).  Method of calculation is not
+          specified.  IEC 61850-7-4 attribute 'ThdAmp'.";
+      }
+
+      leaf eoACPwrAttributesThdVoltage {
+        type int32 {
+          range "0..10000";
+        }
+        units "hundredths of percent";
+        config false;
+        description
+         "A calculated value for the voltage total harmonic
+          distortion (THD).  The method of calculation is not
+          specified.  IEC 61850-7-4 attribute 'ThdVol'.";
+      }
+    }
+
+
+    /* XXX table comments here XXX */
+    list eoACPwrAttributesDelPhaseEntry {
+
+      key "entPhysicalIndex eoACPwrAttributesDelPhaseIndex";
+      description
+       "An entry describes power measurements of a phase in a
+        DEL three-phase power.  Three entries are required for each
+        supported entPhysicalIndex entry.  Voltage measurements
+        are provided relative to each other.
+
+        For phase-to-phase measurements, the
+        eoACPwrAttributesDelPhaseIndex is compared against the
+        following phase at +120 degrees.  Thus, the possible
+        values are:
+
+        eoACPwrAttributesDelPhaseIndex    Next Phase Angle
+                              0                 120
+                             120                240
+                             240                  0";
+
+      /*** Was originally a keyref. ODL yangtools parser does not support keyref ***/
+      leaf entPhysicalIndex {
+        type leafref {
+          path "/entity:entityPhysical/entity:entPhysicalEntry/entity:entPhysicalIndex";
+        }
+        config false;
+        description
+         "Automagically generated keyref leaf.";
+      }
+
+      leaf eoACPwrAttributesDelPhaseIndex {
+        type int32 {
+          range "0..359";
+        }
+        config false;
+        description
+         "A phase angle typically corresponding to 0, 120, 240.";
+      }
+
+      leaf eoACPwrAttributesDelPhaseToNextPhaseVoltage {
+        type int32;
+        units "0.1 Volt AC";
+        config false;
+        description
+         "A measured value of phase to next phase voltages, where
+          the next phase is IEC 61850-7-4 attribute 'PPV'.";
+      }
+
+      leaf eoACPwrAttributesDelThdPhaseToNextPhaseVoltage {
+        type int32 {
+          range "0..10000";
+        }
+        units "hundredths of percent";
+        config false;
+        description
+         "A calculated value for the voltage total harmonic
+          distortion for phase to next phase.  Method of calculation
+          is not specified.  IEC 61850-7-4 attribute 'ThdPPV'.";
+      }
+    }
+
+
+    /* XXX table comments here XXX */
+    list eoACPwrAttributesWyePhaseEntry {
+
+      key "entPhysicalIndex eoACPwrAttributesWyePhaseIndex";
+      description
+       "This table describes measurements of a phase in a WYE
+        three-phase power system.  Three entries are required for
+        each supported entPhysicalIndex entry.  Voltage
+        measurements are relative to neutral.
+
+        Each entry describes power attributes of one phase of a
+        WYE three-phase power system.";
+
+      /*** Was originally a keyref. ODL yangtools parser does not support keyref ***/
+      leaf entPhysicalIndex {
+        type leafref {
+          path "/entity:entityPhysical/entity:entPhysicalEntry/entity:entPhysicalIndex";
+        }
+        config false;
+        description
+         "Automagically generated keyref leaf.";
+      }
+
+      leaf eoACPwrAttributesWyePhaseIndex {
+        type int32 {
+          range "0..359";
+        }
+        config false;
+        description
+         "A phase angle typically corresponding to 0, 120, 240.";
+      }
+
+      leaf eoACPwrAttributesWyePhaseToNeutralVoltage {
+        type int32;
+        units "0.1 Volt AC";
+        config false;
+        description
+         "A measured value of phase to neutral voltage.  IEC
+          61850-7-4 attribute 'PNV'.";
+      }
+
+      leaf eoACPwrAttributesWyeCurrent {
+        type int32;
+        units "0.1 amperes AC";
+        config false;
+        description
+         "A measured value of phase currents.  IEC 61850-7-4
+          attribute 'A'.";
+      }
+
+      leaf eoACPwrAttributesWyeActivePower {
+        type int32;
+        units "watts";
+        config false;
+        description
+         "A measured value of the actual power delivered to or
+          consumed by the load with the magnitude indicated
+          separately in eoPowerUnitMultiplier.  IEC 61850-7-4
+          attribute 'W'.";
+      }
+
+      leaf eoACPwrAttributesWyeReactivePower {
+        type int32;
+        units "volt-amperes reactive";
+        config false;
+        description
+         "A measured value of the reactive portion of the apparent
+          power with the magnitude of indicated separately in
+          eoPowerUnitMultiplier.  IEC 61850-7-4 attribute 'VAr'.";
+      }
+
+      leaf eoACPwrAttributesWyeApparentPower {
+        type int32;
+        units "volt-amperes";
+        config false;
+        description
+         "A measured value of the voltage and current determines
+          the apparent power with the indicated separately in
+          eoPowerUnitMultiplier.  Active plus reactive power equals
+          the total apparent power.
+
+          Note: Watts and volt-amperes are equivalent units and may
+          be combined.  IEC 61850-7-4 attribute 'VA'.";
+      }
+
+      leaf eoACPwrAttributesWyePowerFactor {
+        type int32 {
+          range "-10000..10000";
+        }
+        units "hundredths";
+        config false;
+        description
+         "A measured value ratio of the real power flowing to the
+          load versus the apparent power for this phase.  IEC
+          61850-7-4 attribute 'PF'.  Power Factor can be positive or
+          negative where the sign should be in lead/lag (IEEE)
+          form.";
+      }
+
+      leaf eoACPwrAttributesWyeThdCurrent {
+        type int32 {
+          range "0..10000";
+        }
+        units "hundredths of percent";
+        config false;
+        description
+         "A calculated value for the voltage total harmonic
+          distortion (THD) for phase to phase.  Method of
+          calculation is not specified.
+          IEC 61850-7-4 attribute 'ThdA'.";
+      }
+
+      leaf eoACPwrAttributesWyeThdPhaseToNeutralVoltage {
+        type int32 {
+          range "0..10000";
+        }
+        units "hundredths of percent";
+        config false;
+        description
+         "A calculated value of the voltage total harmonic
+          distortion (THD) for phase to neutral.  IEC 61850-7-4
+          attribute 'ThdPhV'.";
+      }
+    }
+  }
+
+} /* end of module odl-eman-powerattributes  */
