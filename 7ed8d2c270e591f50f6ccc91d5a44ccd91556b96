@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_f2f62a5c",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 2046
+      },
+      "writtenOn": "2016-07-28T18:46:43Z",
+      "side": 1,
+      "message": "1.7.0\n\nBranch master should be using Boron snapshot versions right now.",
+      "range": {
+        "startLine": 13,
+        "startChar": 13,
+        "endLine": 13,
+        "endChar": 18
+      },
+      "revId": "7ed8d2c270e591f50f6ccc91d5a44ccd91556b96",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
