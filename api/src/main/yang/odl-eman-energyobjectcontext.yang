@@ -1,4 +1,4 @@
-module ENERGY-OBJECT-CONTEXT-MIB {
+module odl-eman-energyobjectcontext {
 
   /*** NAMESPACE / PREFIX DEFINITION ***/
   namespace "urn:ietf:params:xml:ns:yang:opendaylight:eman:energyobjectcontext";
@@ -488,4 +488,4 @@ module ENERGY-OBJECT-CONTEXT-MIB {
     }
   }
 
-} /* end of module ENERGY-OBJECT-CONTEXT-MIB */
+} /* end of module odl-eman-energyobjectcontext */

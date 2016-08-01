@@ -21,14 +21,14 @@ and is available at http://www.eclipse.org/legal/epl-v10.html
   <packaging>bundle</packaging>
 
   <properties>
-    <mdsal.yang.version>2010.09.24.9-SNAPSHOT</mdsal.yang.version>
+    <mdsal.yang.version>2013.07.15.9-SNAPSHOT</mdsal.yang.version>
     <snmp.yang.version>1.2.0-SNAPSHOT</snmp.yang.version>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.opendaylight.mdsal.model</groupId>
-      <artifactId>ietf-yang-types</artifactId>
+      <artifactId>ietf-yang-types-20130715</artifactId>
       <version>${mdsal.yang.version}</version>
     </dependency>
     <dependency>

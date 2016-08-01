@@ -8,7 +8,7 @@ module odl-eman-entity {
   import odl-eman-iana-entity    { prefix "iana-entity"; }
   import odl-eman-util           { prefix "eman-util"; }
   import odl-eman-uuid-tc        { prefix "eman-uuid-tc"; }
-  import ietf-yang-types         { prefix "yang"; revision-date "2010-09-24"; }
+  import ietf-yang-types         { prefix "yang"; revision-date "2013-07-15"; }
   import SNMPv2-TC               { prefix "smiv2"; }
 
   /*** META INFORMATION ***/

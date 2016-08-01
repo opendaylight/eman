@@ -8,7 +8,7 @@ module odl-eman-energyobject {
   import odl-eman-entity              { prefix "entity"; }
   import odl-eman-iana-powersetstate  { prefix "iana-powerstateset"; }
   import odl-eman-util                { prefix "eman-util"; }
-  import ietf-yang-types              { prefix "yang"; revision-date "2010-09-24"; }
+  import ietf-yang-types              { prefix "yang"; revision-date "2013-07-15"; }
   import SNMPv2-TC                    { prefix "smiv2"; }
 
   /*** META INFORMATION ***/
