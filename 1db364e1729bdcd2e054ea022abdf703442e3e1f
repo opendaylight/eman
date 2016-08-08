@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a6b29fe_5ad84e1d",
+        "filename": "api/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6201
+      },
+      "writtenOn": "2016-08-08T22:45:40Z",
+      "side": 1,
+      "message": "This version number needs to stay at 2013.07.15.9-SNAPSHOT.",
+      "revId": "1db364e1729bdcd2e054ea022abdf703442e3e1f",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a6b29fe_1aced65a",
+        "filename": "features/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 6201
+      },
+      "writtenOn": "2016-08-08T22:45:40Z",
+      "side": 1,
+      "message": "Will the SNMP project be updated?",
+      "revId": "1db364e1729bdcd2e054ea022abdf703442e3e1f",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a6b29fe_badd2217",
+        "filename": "features/src/main/features/features.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6201
+      },
+      "writtenOn": "2016-08-08T22:45:40Z",
+      "side": 1,
+      "message": "Will the SNMP project be updated? An Ho mentioned they were on \"life support\".",
+      "revId": "1db364e1729bdcd2e054ea022abdf703442e3e1f",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
