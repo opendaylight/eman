@@ -2,7 +2,7 @@ module odl-eman-battery {
 
   /*** NAMESPACE / PREFIX DEFINITION ***/
   namespace "urn:ietf:params:xml:ns:yang:opendaylight:eman:battery";
-  prefix "battery-mib";
+  prefix "battery";
 
   /*** LINKAGE (IMPORTS / INCLUDES) ***/
   import odl-eman-entity         { prefix "entity"; }

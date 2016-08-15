@@ -8,29 +8,35 @@ terms of the Eclipse Public License v1.0 which accompanies this distribution,
 and is available at http://www.eclipse.org/legal/epl-v10.html
 -->
 <features name="odl-eman-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.2.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
+
+  <!-- Karaf feature repository dependencies -->
   <repository>mvn:org.opendaylight.yangtools/features-yangtools/{{VERSION}}/xml/features</repository>
   <repository>mvn:org.opendaylight.controller/features-mdsal/{{VERSION}}/xml/features</repository>
   <repository>mvn:org.opendaylight.mdsal.model/features-mdsal-model/{{VERSION}}/xml/features</repository>
   <repository>mvn:org.opendaylight.netconf/features-restconf/{{VERSION}}/xml/features</repository>
   <repository>mvn:org.opendaylight.snmp/features-snmp/1.3.0-SNAPSHOT/xml/features</repository>
   <repository>mvn:org.opendaylight.dlux/features-dlux/{{VERSION}}/xml/features</repository>
+
   <feature name='odl-eman-api' version='${project.version}' description='OpenDaylight :: eman :: api'>
     <feature version='${mdsal.model.version}'>odl-mdsal-models</feature>
     <feature version="1.3.0-SNAPSHOT">odl-snmp-plugin</feature>
     <bundle>mvn:org.opendaylight.eman/eman-api/{{VERSION}}</bundle>
   </feature>
+
   <feature name='odl-eman' version='${project.version}' description='OpenDaylight :: eman'>
     <feature version='${mdsal.version}'>odl-mdsal-broker</feature>
     <feature version='${project.version}'>odl-eman-api</feature>
     <bundle>mvn:org.opendaylight.eman/eman-impl/{{VERSION}}</bundle>
     <configfile finalname="${configfile.directory}/eman.xml">mvn:org.opendaylight.eman/eman-impl/{{VERSION}}/xml/config</configfile>
   </feature>
+
   <feature name='odl-eman-rest' version='${project.version}' description='OpenDaylight :: eman :: REST'>
     <feature version="${project.version}">odl-eman</feature>
     <feature version="${restconf.version}">odl-restconf</feature>
   </feature>
+
   <feature name='odl-eman-ui' version='${project.version}' description='OpenDaylight :: eman :: UI'>
     <feature version="${project.version}">odl-eman-rest</feature>
     <feature version="${restconf.version}">odl-mdsal-apidocs</feature>
@@ -38,4 +44,11 @@ and is available at http://www.eclipse.org/legal/epl-v10.html
     <feature version="${dlux.version}">odl-dlux-yangui</feature>
   </feature>
 
+  <!-- Eman Model feature -->
+  <feature name='odl-eman-model' version='${project.version}' description='OpenDaylight :: eman :: Model'>
+    <feature version='${mdsal.model.version}'>odl-mdsal-models</feature>
+    <feature version="1.3.0-SNAPSHOT">odl-snmp-plugin</feature>
+    <bundle>mvn:org.opendaylight.eman/eman-api/{{VERSION}}</bundle>
+    <bundle>mvn:org.opendaylight.controller.model/model-inventory/${controller.version}</bundle>
+  </feature>
 </features>
