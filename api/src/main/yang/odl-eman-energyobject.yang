@@ -6,7 +6,7 @@ module odl-eman-energyobject {
 
   /*** LINKAGE (IMPORTS / INCLUDES) ***/
   import odl-eman-entity              { prefix "entity"; }
-  import odl-eman-iana-powersetstate  { prefix "iana-powerstateset"; }
+  import odl-eman-iana-energytypes    { prefix "iana-energytypes"; }
   import odl-eman-util                { prefix "eman-util"; }
   import ietf-yang-types              { prefix "yang"; revision-date "2013-07-15"; }
   import SNMPv2-TC                    { prefix "smiv2"; }
@@ -349,7 +349,7 @@ module odl-eman-energyobject {
       }
 
       leaf eoPowerAdminState {
-        type iana-powerstateset:PowerStateSet;
+        type iana-energytypes:PowerStateSet;
         config true;
         description
          "This object specifies the desired Power State and the
@@ -364,7 +364,7 @@ module odl-eman-energyobject {
       }
 
       leaf eoPowerOperState {
-        type iana-powerstateset:PowerStateSet;
+        type iana-energytypes:PowerStateSet;
         config false;
         description
          "This object specifies the current operational Power
@@ -435,7 +435,7 @@ module odl-eman-energyobject {
       }
 
       leaf eoPowerStateIndex {
-        type iana-powerstateset:PowerStateSet;
+        type iana-energytypes:PowerStateSet;
         config false;
         description
          "This object specifies the index of the Power State of
@@ -806,7 +806,7 @@ module odl-eman-energyobject {
          "Automagically generated keyref leaf.";
       }
       leaf eoPowerAdminState {
-        type iana-powerstateset:PowerStateSet;
+        type iana-energytypes:PowerStateSet;
         config false;
         description
          "This object specifies the desired Power State and the
@@ -832,7 +832,7 @@ module odl-eman-energyobject {
          "Automagically generated keyref leaf.";
       }
       leaf eoPowerOperState {
-        type iana-powerstateset:PowerStateSet;
+        type iana-energytypes:PowerStateSet;
         config false;
         description
          "This object specifies the current operational Power

@@ -1,8 +1,8 @@
-module odl-eman-iana-entity {
+module odl-eman-iana-energytypes {
 
   /*** NAMESPACE / PREFIX DEFINITION ***/
-  namespace "urn:opendaylight:params:xml:ns:yang:eman:iana:entity";
-  prefix "iana-entity";
+  namespace "urn:opendaylight:params:xml:ns:yang:eman:iana:energytypes";
+  prefix "iana-energytypes";
 
   /*** LINKAGE (IMPORTS / INCLUDES) ***/
 
@@ -15,15 +15,23 @@ module odl-eman-iana-entity {
     Postal: ICANN
             12025 Waterfront Drive, Suite 300
             Los Angeles, CA 90094-2536
+            United States
     Phone: +1-310-301-5800
     EMail: iana@iana.org";
 
   description
-   "This MIB module defines a TEXTUAL-CONVENTION that provides
-    an indication of the general hardware type of a particular
-    physical entity.
+   "This MIB module defines TEXTUAL-CONVENTIONs that specify:
 
-    Copyright (c) 2013 IETF Trust and the persons identified as
+    IANAPhysicalClass - an indication of the general hardware
+    type of a particular physical entity;
+
+    PowerStateSet - which specifies the Power State Sets and
+    Power State Set Values an Energy Object supports.
+
+    IANAEnergyRelationship - that describes the relationships
+    between Energy Objects.
+
+    Copyright (c) 2015 IETF Trust and the persons identified as
     authors of the code.  All rights reserved.
 
     Redistribution and use in source and binary forms, with or
@@ -33,8 +41,18 @@ module odl-eman-iana-entity {
     Provisions Relating to IETF Documents
     (http://trustee.ietf.org/license-info).
 
-    The initial version of this MIB module was published in
-    RFC 6933; for full legal notices see the RFC itself.";
+    The initial version of the IANAPhysicalClass MIB module was
+	published in RFC 6933; for full legal notices see the RFC
+	itself.
+
+	The initial version of the PowerStateSet MIB module was
+	published in RFC 7460; for full legal notices see the RFC
+	itself.
+
+	The initial version of the IANAEnergyRelationship MIB module
+	was published in RFC 7461; for full legal notices see the
+	RFC itself.";
+
 
   revision "2013-04-05" {
     description
@@ -144,4 +162,98 @@ module odl-eman-iana-entity {
       entity class is some sort of battery.";
   }
 
-} /* end of module odl-eman-iana-entity */
+
+  typedef PowerStateSet {
+    type enumeration {
+      enum other                         { value 0; }
+      enum unknown                       { value 255; }
+      enum ieee1621                      { value 256; }
+      enum ieee1621Off                   { value 257; }
+      enum ieee1621Sleep                 { value 258; }
+      enum ieee1621On                    { value 259; }
+      enum dmtf                          { value 512; }
+      enum dmtfOn                        { value 513; }
+      enum dmtfSleepLight                { value 514; }
+      enum dmtfSleepDeep                 { value 515; }
+      enum dmtfOffHard                   { value 516; }
+      enum dmtfOffSoft                   { value 517; }
+      enum dmtfHibernate                 { value 518; }
+      enum dmtfPowerOffSoft              { value 519; }
+      enum dmtfPowerOffHard              { value 520; }
+      enum dmtfMasterBusReset            { value 521; }
+      enum dmtfDiagnosticInterrapt       { value 522; }
+      enum dmtfOffSoftGraceful           { value 523; }
+      enum dmtfOffHardGraceful           { value 524; }
+      enum dmtfMasterBusResetGraceful    { value 525; }
+      enum dmtfPowerCycleOffSoftGraceful { value 526; }
+      enum dmtfPowerCycleHardGraceful    { value 527; }
+      enum eman                          { value 1024; }
+      enum emanMechOff                   { value 1025; }
+      enum emanSoftOff                   { value 1026; }
+      enum emanHibernate                 { value 1027; }
+      enum emanSleep                     { value 1028; }
+      enum emanStandby                   { value 1029; }
+      enum emanReady                     { value 1030; }
+      enum emanLowMinus                  { value 1031; }
+      enum emanLow                       { value 1032; }
+      enum emanMediumMinus               { value 1033; }
+      enum emanMedium                    { value 1034; }
+      enum emanHighMinus                 { value 1035; }
+      enum emanHigh                      { value 1036; }
+    }
+    description
+     "IANAPowerState is a textual convention that describes
+      Power State Sets and Power State Set Values an Energy
+      Object supports.  IANA has created a registry of Power
+      State supported by an Energy Object and IANA shall
+      administer the list of Power State Sets and Power
+      States.
+
+      The Textual Convention assumes that Power States in a
+      Power State Set are limited to 255 distinct values.  For
+      a Power State Set S, the named number with the value S *
+      256 is allocated to indicate the Power State Set.  For a
+      Power State X in the Power State Set S, the named number
+      with the value S * 256 + X + 1 is allocated to represent
+      the Power State.
+
+      Requests for new values should be made to IANA via email
+      (iana@iana.org).";
+    reference
+     "http://www.iana.org/assignments/power-state-sets";
+  }
+
+  typedef IANAEnergyRelationship {
+    type enumeration {
+	  enum poweredBy    { value 1; }
+	  enum powering     { value 2; }
+	  enum meteredBy    { value 3; }
+	  enum metering     { value 4; }
+	  enum aggregatedBy { value 5; }
+	  enum aggregating  { value 6; }
+	}
+    description
+	 "An enumerated value specifying the type of
+	  relationship between an Energy Object A, on
+	  which the relationship is specified, with the
+	  Energy Object B, identified by the UUID.
+
+	  The enumeration 'poweredBy' is applicable if
+	  Energy Object A is poweredBy Energy Object B.
+
+	  The enumeration 'powering' is applicable if
+	  Energy Object A is powering Energy Object B.
+
+	  The enumeration 'meteredBy' is applicable if
+	  Energy Object A is meteredBy Energy Object B.
+
+	  The enumeration 'metering' is applicable if
+	  Energy Object A is metering Energy Object B.
+
+	  The enumeration 'aggregatedBy' is applicable if
+	  Energy Object A is aggregatedBy Energy Object B.
+
+	  The enumeration 'aggregating' is applicable if
+	  Energy Object A is aggregating Energy Object B.";
+  }
+} /* end of module odl-eman-iana-energytypes */

@@ -6,7 +6,7 @@ module odl-eman-energyobjectcontext {
 
   /*** LINKAGE (IMPORTS / INCLUDES) ***/
   import odl-eman-entity               { prefix "entity"; }
-  import odl-eman-iana-energyrelation  { prefix "iana-energy"; }
+  import odl-eman-iana-energytypes     { prefix "iana-energytypes"; }
   import odl-eman-util                 { prefix "eman-util"; }
   import odl-eman-uuid-tc              { prefix "uuid-tc"; }
   import ieee-types                    { prefix "ieee"; }
@@ -454,7 +454,7 @@ module odl-eman-energyobjectcontext {
       }
 
       leaf eoRelationship {
-        type iana-energy:IANAEnergyRelationship;
+        type iana-energytypes:IANAEnergyRelationship;
         config true;
         description
          "This object describes the relations between Energy

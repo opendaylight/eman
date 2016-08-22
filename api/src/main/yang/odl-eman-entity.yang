@@ -5,11 +5,11 @@ module odl-eman-entity {
   prefix "eman-entity";
 
   /*** LINKAGE (IMPORTS / INCLUDES) ***/
-  import odl-eman-iana-entity    { prefix "iana-entity"; }
-  import odl-eman-util           { prefix "eman-util"; }
-  import odl-eman-uuid-tc        { prefix "eman-uuid-tc"; }
-  import ietf-yang-types         { prefix "yang"; revision-date "2013-07-15"; }
-  import SNMPv2-TC               { prefix "smiv2"; }
+  import odl-eman-iana-energytypes    { prefix "iana-energytypes"; }
+  import odl-eman-util                { prefix "eman-util"; }
+  import odl-eman-uuid-tc             { prefix "eman-uuid-tc"; }
+  import ietf-yang-types              { prefix "yang"; revision-date "2013-07-15"; }
+  import SNMPv2-TC                    { prefix "smiv2"; }
 
   /*** META INFORMATION ***/
   organization
@@ -321,7 +321,7 @@ module odl-eman-entity {
       }
 
       leaf entPhysicalClass {
-        type iana-entity:IANAPhysicalClass;
+        type iana-energytypes:IANAPhysicalClass;
         config false;
         description
          "An indication of the general hardware type of the physical
