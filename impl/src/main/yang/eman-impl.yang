@@ -7,21 +7,27 @@ module eman-impl {
     import opendaylight-md-sal-binding { prefix md-sal-binding; revision-date 2013-10-28;}
 
     description
-        "Service definition for eman project";
+        "Base YANG service definition(s) for the eman project implementation.";
 
     revision "2014-12-10" {
         description
             "Initial revision";
     }
 
+    // This is the definition of the service implementation as a module identity
     identity eman {
         base config:module-type;
+
+        // Specifies the prefix for generated java classes.
         config:java-name-prefix Eman;
     }
 
+    // Augments the 'configuration' choice node under modules/module.
     augment "/config:modules/config:module/config:configuration" {
         case eman {
             when "/config:modules/config:module/config:type = 'eman'";
+
+            // Wires up the data-broker service
             container broker {
                 uses config:service-ref {
                     refine type {
