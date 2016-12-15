@@ -14,11 +14,11 @@ and is available at http://www.eclipse.org/legal/epl-v10.html
   <repository>mvn:org.opendaylight.controller/features-mdsal/{{VERSION}}/xml/features</repository>
   <repository>mvn:org.opendaylight.mdsal.model/features-mdsal-model/{{VERSION}}/xml/features</repository>
   <repository>mvn:org.opendaylight.netconf/features-restconf/{{VERSION}}/xml/features</repository>
-  <repository>mvn:org.opendaylight.snmp/features-snmp/1.2.2-SNAPSHOT/xml/features</repository>
+  <repository>mvn:org.opendaylight.snmp/features-snmp/1.2.2-Boron-SR2/xml/features</repository>
   <repository>mvn:org.opendaylight.dlux/features-dlux/{{VERSION}}/xml/features</repository>
   <feature name='odl-eman-api' version='${project.version}' description='OpenDaylight :: eman :: api'>
     <feature version='${mdsal.model.version}'>odl-mdsal-models</feature>
-    <feature version="1.2.2-SNAPSHOT">odl-snmp-plugin</feature>
+    <feature version="1.2.2-Boron-SR2">odl-snmp-plugin</feature>
     <bundle>mvn:org.opendaylight.eman/eman-api/{{VERSION}}</bundle>
   </feature>
   <feature name='odl-eman' version='${project.version}' description='OpenDaylight :: eman'>
