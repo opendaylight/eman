@@ -1,9 +1,58 @@
-module eman {
+/*
+ * Copyright (c) 2017 CyRetix and others.  All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ */
+ module eman {
     yang-version 1;
-    namespace "urn:opendaylight:params:xml:ns:yang:eman";
-    prefix "eman";
+    namespace "urn:opendaylight:eman";
+    prefix eman;
 
-    revision "2015-01-05" {
+    organization "Pajarito Technologies LLC";
+    contact "Frank Sandoval francisrsandoval@gmail.com";
+    description "Defines Information Model of Energy Management module.";
+
+    revision "2017-01-05" {
         description "Initial revision of eman model";
+    }
+
+    /* Very simple API, just set and get. User passes in string indicating resource in
+    Information Model
+    */
+    rpc get-eoAttribute {
+        input {
+            leaf deviceIP {
+                type string;
+            }
+            leaf attribute {
+                type string;
+            }
+        }
+        output {
+            leaf response {
+                type string;
+            }
+        }
+    }
+
+    rpc set-eoAttribute {
+        input {
+            leaf deviceIP {
+                type string;
+            }
+            leaf attribute {
+                type string;
+            }
+           leaf value {
+                type string;
+            }
+        }
+        output {
+            leaf response {
+                type string;
+            }
+        }
     }
 }
