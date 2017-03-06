@@ -51,7 +51,7 @@ public class EmanIT extends AbstractMdsalTestBase {
 
     @Override
     public String getFeatureName() {
-        return "odl-eman-ui";
+        return "odl-eman-rest";
     }
 
     @Override

@@ -38,6 +38,14 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
       <organization>Comcast</organization>
       <organizationUrl>http://www.comcast.com</organizationUrl>
     </developer>
+
+      <developer>
+          <name>Adolfo Perez-Duran</name>
+          <email>adolfo@cyretix.com</email>
+          <organization>CyRetix</organization>
+          <organizationUrl>http://www.cyretix.com</organizationUrl>
+      </developer>
+
   </developers>
 
   <scm>
