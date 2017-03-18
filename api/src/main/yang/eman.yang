@@ -1,58 +1,179 @@
-/*
- * Copyright (c) 2017 CyRetix and others.  All rights reserved.
+/* Copyright (c) 2017 Pajarito Technologies LLC and others.  All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  */
+
  module eman {
     yang-version 1;
     namespace "urn:opendaylight:eman";
     prefix eman;
 
+    import ietf-yang-types { prefix yang; }
+    import ietf-inet-types { prefix inet; }
+  
     organization "Pajarito Technologies LLC";
     contact "Frank Sandoval francisrsandoval@gmail.com";
-    description "Defines Information Model of Energy Management module.";
+    description "Defines Data Model of Energy Management module.
+        This model is derived from the IETF Energy Management framework, 
+        https://datatracker.ietf.org/wg/eman/charter/
+        
+        This model is intended to support the IETF eman MIB models. For instance, 
+        the eoPowerMeasurement object reflects the EoPowerEntry object found in
+        ENERGY-OBJECT-MIB
+        ";
 
     revision "2017-01-05" {
-        description "Initial revision of eman model";
+        description "Initial revision of eman model. This is a WORK IN PROGRESS and 
+        contains data type definitions and other elements that should be refined";
+    }
+    
+	grouping eoMeasurementGroup {
+        list eoPowerMeasurement {
+            key id;
+            leaf id { type int32; }
+            leaf timeStamp { type string; }
+            leaf eoPower { type int32; }
+            leaf eoPowerNameplate { type int32; }
+            leaf eoPowerUnitMultiplier { type int32; }
+            leaf eoPowerAccuracy { type int32; }
+            leaf eoPowerMeasurementCaliber { type int32; }
+            leaf eoPowerCurrentType { type int32; }
+            leaf eoPowerMeasurementLocal { type int32; }
+            leaf eoPowerAdminState { type int32; }
+            leaf eoPowerOperState { type int32; }
+            leaf eoPowerStateEnterReason { type int32; }
+            description "an instance of a power measurement from an energy object
+                To do: update data types
+                eoPowerUnitMultiplier should be IETF ENERGY-OBJECT-MIB UnitMultiplier
+                eoPowerAdminState and eoPowerOperState should be IETF eman enum PowerStateSet
+                eoPowerStateEnterReason should be IETF eman OwnerString";
+        }
+        
+/* 
+        TBD: implement these parts of the model
+	    list eoPowerStateRecord {
+            key id;
+            leaf id {type int32; }
+	        leaf timeStamp { type timestamp; }
+	        leaf eoPowerStatemaxPower { type int32; }
+	        leaf eoPowerStatePowerUnitMultiplier { type int32; }
+	        leaf eoPowerStateTotalTime { type int32; }
+	        leaf eoPowerStateEnterCount { type int32; }
+	        description "a record for each power state inhabited by an energy object
+	            To do: update types";
+	    }
+        list eoEnergyMeasurement {
+            key id;
+            leaf id {type int32; }
+            leaf timeStamp { type timestamp; }
+            leaf eoEnergyConsumed { type int32; }
+            leaf eoEnergyProvided { type int32; }
+            leaf eoEnergyStored { type int32; }
+            leaf eoEnergyUnitMultiplier { type int32; }
+            leaf eoEnergyAccuracy { type int32; }
+            leaf eoEnergyMaxConsumed { type int32; }
+            leaf eoEnergyMaxProduced { type int32; }
+            leaf eoEnergyDiscontinuityTime { type int32; }
+            description "an instance of an energy measurement from an energy object
+                To do: update data types";
+        }
+*/
+    }
+    
+    grouping energyObject {
+        uses eoMeasurementGroup;
+    }
+    	   
+/*
+    TBD: implement these parts of the model 
+    grouping powerInterface {
+        key id;
+        leaf id {type int32;}
+        uses energyObject;
+        description "power interface associated with device or component";
+    }
+    
+    grouping component {
+        key id;
+        leaf id {type int32;}
+        uses energyObject;
+        list powerInterfaces {
+            key name;
+            uses powerInterface;
+        }
+        description "atomic energy object. should include list of sub-components ";
+    }
+*/
+
+    container eoDevices {
+        list eoDevice {
+            key id;
+            leaf id {type int32;}
+            leaf IPAddress {type string;}
+            uses energyObject;
+
+            /* implement these parts of the model
+            list powerInterfaces {
+                key name;
+                uses powerInterface;
+            }
+            list components {
+                key name;
+                uses component;
+            }
+            */
+        }
+        description "root of enam api";
     }
 
-    /* Very simple API, just set and get. User passes in string indicating resource in
+    
+/* 
+    TBD: implement these parts of the model
+    notification powerState-change {
+        leafref eoPowerMeasurement:eoPowerAdminState;
+        leafref eoPowerMeasurement:eoPowerOperState;
+        description "notification on power state change";
+    }
+
+*/
+
+    /* Very simple API, just set and get. User passes in string indicating resource in 
     Information Model
     */
+
     rpc get-eoAttribute {
         input {
-            leaf deviceIP {
-                type string;
-            }
-            leaf attribute {
-                type string;
-            }
+            leaf deviceIP {type string;}
+            leaf attribute {type string;}
         }
         output {
-            leaf response {
-                type string;
-            }
+            leaf response {type string;}
         }
+        description "query device for a specific attribute, i.e. eoPower";
     }
 
     rpc set-eoAttribute {
         input {
-            leaf deviceIP {
-                type string;
-            }
-            leaf attribute {
-                type string;
-            }
-           leaf value {
-                type string;
-            }
+            leaf deviceIP {type string;}
+            leaf attribute {type string;}
+            leaf value {type string;}
         }
         output {
-            leaf response {
-                type string;
-            }
+            leaf response {type string;}
         }
+        description "set a specific attribute on a device, i.e. eoPowerAdminState";
     }
+
+    rpc get-eoDevicePowerMeasures {
+        input {
+            leaf deviceIP {type string;}
+        }
+        output {
+            leaf response {type string;}
+        }
+        description "read the eoPowerMeasurement on a device and write an instance into MD-SAL";
+    }
+
 }
