@@ -21,19 +21,9 @@ and is available at http://www.eclipse.org/legal/epl-v10.html
 
   <feature name='odl-eman' version='${project.version}' description='OpenDaylight :: eman'>
     <feature version='${mdsal.model.version}'>odl-mdsal-models</feature>
-<<<<<<< HEAD:features/src/main/features/features.xml
     <feature version='${mdsal.version}'>odl-mdsal-broker</feature>
     <feature version="1.4.0-SNAPSHOT">odl-snmp-plugin</feature>
     <bundle>mvn:org.opendaylight.eman/eman-api/{{VERSION}}</bundle>
-=======
-    <bundle>mvn:org.opendaylight.eman/eman-api/{{VERSION}}</bundle>
-  </feature>
-
-  <feature name='odl-eman' version='${project.version}' description='OpenDaylight :: eman'>
-    <feature version='${mdsal.version}'>odl-mdsal-broker</feature>
-    <feature version="1.4.0-SNAPSHOT">odl-snmp-plugin</feature>
-    <feature version='${project.version}'>odl-eman-api</feature>
->>>>>>> a199f42... Migrated to Karaf4.:features/features-eman/src/main/features/features.xml
     <bundle>mvn:org.opendaylight.eman/eman-impl/{{VERSION}}</bundle>
     <bundle>mvn:org.apache.httpcomponents/httpclient-osgi/4.5.2</bundle>
     <bundle>mvn:org.apache.httpcomponents/httpcore-osgi/4.4.5</bundle>
@@ -42,9 +32,13 @@ and is available at http://www.eclipse.org/legal/epl-v10.html
     <configfile finalname="${configfile.directory}/eman.xml">mvn:org.opendaylight.eman/eman-impl/{{VERSION}}/xml/config</configfile>
   </feature>
 
-  <feature name='odl-eman-ui' version='${project.version}' description='OpenDaylight :: eman :: UI'>
+  <feature name='odl-eman-rest' version='${project.version}' description='OpenDaylight :: eman :: REST'>
     <feature version="${project.version}">odl-eman</feature>
     <feature version="${restconf.version}">odl-restconf</feature>
+  </feature>
+
+  <feature name='odl-eman-ui' version='${project.version}' description='OpenDaylight :: eman :: UI'>
+    <feature version="${project.version}">odl-eman-rest</feature>
     <feature version="${restconf.version}">odl-mdsal-apidocs</feature>
     <feature version="${dluxapps.version}">odl-dluxapps-yangman</feature>
   </feature>
