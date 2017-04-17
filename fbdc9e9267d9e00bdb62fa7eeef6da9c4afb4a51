@@ -46,6 +46,29 @@
       "revId": "fbdc9e9267d9e00bdb62fa7eeef6da9c4afb4a51",
       "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da01753e_0bfaecbc",
+        "filename": "features/odl-eman/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 2046
+      },
+      "writtenOn": "2017-04-17T08:49:01Z",
+      "side": 1,
+      "message": "Depend on specific single features, not feature repos.\n\nEspecially not Karaf 3 feature repos such as this one.",
+      "range": {
+        "startLine": 40,
+        "startChar": 18,
+        "endLine": 40,
+        "endChar": 31
+      },
+      "revId": "fbdc9e9267d9e00bdb62fa7eeef6da9c4afb4a51",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
     }
   ]
 }
