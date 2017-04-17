@@ -25,7 +25,6 @@ and is available at http://www.eclipse.org/legal/epl-v10.html
 
   <properties>
     <mdsal.yang.version>2013.07.15.10-SNAPSHOT</mdsal.yang.version>
-    <snmp.yang.version>1.3.0-SNAPSHOT</snmp.yang.version>
   </properties>
 
   <dependencies>
@@ -33,11 +32,6 @@ and is available at http://www.eclipse.org/legal/epl-v10.html
       <groupId>org.opendaylight.mdsal.model</groupId>
       <artifactId>ietf-yang-types-20130715</artifactId>
       <version>${mdsal.yang.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.opendaylight.snmp</groupId>
-      <artifactId>mibs-model</artifactId>
-      <version>${snmp.yang.version}</version>
     </dependency>
   </dependencies>
 
