@@ -38,7 +38,7 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
     </dependency>
     <dependency>
       <groupId>org.opendaylight.snmp</groupId>
-      <artifactId>features-snmp</artifactId>
+      <artifactId>odl-snmp-plugin</artifactId>
       <version>1.3.0-SNAPSHOT</version>
       <classifier>features</classifier>
       <type>xml</type>
@@ -53,24 +53,10 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
       <artifactId>eman-impl</artifactId>
       <version>${project.version}</version>
     </dependency>
-<!--
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient-osgi</artifactId>
-      <version>4.5.2</version>
-    </dependency>
--->
     <dependency>
       <groupId>org.glassfish</groupId>
       <artifactId>javax.json</artifactId>
       <version>1.0.4</version>
     </dependency>
-<!--
-    <dependency>
-      <groupId>org.opendaylight.controller.model</groupId>
-      <artifactId>model-inventory</artifactId>
-      <version>${project.version}</version>
-    </dependency>
--->
   </dependencies>
 </project>
