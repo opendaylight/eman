@@ -12,13 +12,13 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
   <parent>
     <groupId>org.opendaylight.odlparent</groupId>
     <artifactId>single-feature-parent</artifactId>
-    <version>1.8.0-SNAPSHOT</version>
+    <version>1.8.0-Carbon</version>
     <relativePath/>
   </parent>
   
   <groupId>org.opendaylight.eman</groupId>
   <artifactId>odl-eman-api</artifactId>
-  <version>1.1.0-SNAPSHOT</version>
+  <version>1.1.0-Carbon</version>
   <packaging>feature</packaging>
   <!-- <name> formatting is used by autorelease to parse and notify projects on
        build failure. Please do not modify this unless you have a good reason. -->
@@ -29,7 +29,7 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
   </prerequisites>
 
   <properties>
-    <mdsal.model.version>0.10.0-SNAPSHOT</mdsal.model.version>
+    <mdsal.model.version>0.10.0-Carbon</mdsal.model.version>
   </properties>
 
   <dependencies>
