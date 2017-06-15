@@ -10,19 +10,19 @@ and is available at http://www.eclipse.org/legal/epl-v10.html
   <parent>
     <groupId>org.opendaylight.mdsal</groupId>
     <artifactId>binding-parent</artifactId>
-    <version>0.9.4-SNAPSHOT</version>
+    <version>0.9.4-Boron-SR4</version>
     <relativePath/>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.opendaylight.eman</groupId>
   <artifactId>eman-api</artifactId>
-  <version>1.0.4-SNAPSHOT</version>
+  <version>1.0.4-Boron-SR4</version>
   <packaging>bundle</packaging>
 
   <properties>
-    <mdsal.yang.version>2013.07.15.9.4-SNAPSHOT</mdsal.yang.version>
-    <snmp.yang.version>1.2.4-SNAPSHOT</snmp.yang.version>
+    <mdsal.yang.version>2013.07.15.9.4-Boron-SR4</mdsal.yang.version>
+    <snmp.yang.version>1.2.4-Boron-SR4</snmp.yang.version>
   </properties>
 
   <dependencies>
