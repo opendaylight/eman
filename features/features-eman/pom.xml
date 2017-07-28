@@ -32,7 +32,6 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
     <yangtools.version>1.2.0-SNAPSHOT</yangtools.version>
     <dluxapps.version>0.6.0-SNAPSHOT</dluxapps.version>
     <controller.version>1.6.0-SNAPSHOT</controller.version>
-    <configfile.directory>etc/opendaylight/karaf</configfile.directory>
   </properties>
 
   <dependencyManagement>
@@ -116,13 +115,6 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
       <groupId>${project.groupId}</groupId>
       <artifactId>eman-impl</artifactId>
       <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>eman-impl</artifactId>
-      <version>${project.version}</version>
-      <type>xml</type>
-      <classifier>config</classifier>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
