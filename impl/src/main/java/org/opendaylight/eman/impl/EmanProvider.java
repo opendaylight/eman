@@ -7,95 +7,77 @@
  */
 package org.opendaylight.eman.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import java.util.concurrent.Future;
-import java.util.List;
 import java.util.ArrayList;
-
-import org.opendaylight.controller.md.sal.binding.api.DataBroker;
-import org.opendaylight.controller.sal.binding.api.BindingAwareBroker.ProviderContext;
-import org.opendaylight.controller.sal.binding.api.BindingAwareProvider;
-import org.opendaylight.controller.sal.binding.api.BindingAwareBroker.RpcRegistration;
-import org.opendaylight.yangtools.yang.common.RpcResult;
-import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
-
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.EmanService;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.GetEoAttributeInput;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.GetEoAttributeOutput;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.GetEoAttributeOutputBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.SetEoAttributeInput;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.SetEoAttributeOutput;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.SetEoAttributeOutputBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.GetEoDevicePowerMeasuresInput;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.GetEoDevicePowerMeasuresOutput;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.GetEoDevicePowerMeasuresOutputBuilder;
-
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.EoDevicesBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.EoDevices;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eodevices.EoDeviceBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eodevices.EoDevice;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eodevices.EoDeviceKey;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eomeasurementgroup.EoPowerMeasurementBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eomeasurementgroup.EoPowerMeasurement;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eomeasurementgroup.EoPowerMeasurementKey;
-
+import java.util.List;
+import java.util.concurrent.Future;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.md.sal.binding.api.WriteTransaction;
 import org.opendaylight.controller.md.sal.common.api.data.LogicalDatastoreType;
 import org.opendaylight.controller.md.sal.common.api.data.TransactionCommitFailedException;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.EmanService;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.EoDevices;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.GetEoAttributeInput;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.GetEoAttributeOutput;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.GetEoAttributeOutputBuilder;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.GetEoDevicePowerMeasuresInput;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.GetEoDevicePowerMeasuresOutput;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.GetEoDevicePowerMeasuresOutputBuilder;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.SetEoAttributeInput;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.SetEoAttributeOutput;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.SetEoAttributeOutputBuilder;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eodevices.EoDevice;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eodevices.EoDeviceBuilder;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eodevices.EoDeviceKey;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eomeasurementgroup.EoPowerMeasurement;
 import org.opendaylight.yangtools.yang.binding.InstanceIdentifier;
+import org.opendaylight.yangtools.yang.common.RpcResult;
+import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class EmanProvider implements BindingAwareProvider, EmanService, AutoCloseable {
+public class EmanProvider implements EmanService, AutoCloseable {
 
     private static final Logger LOG = LoggerFactory.getLogger(EmanProvider.class);
-    private RpcRegistration<EmanService> emanService;
-    private EmanSNMPBinding snmpBinding;
-    private DataBroker dataBroker;
-    private EoDevices eoDevices;
-    private List<EoDevice> eoDeviceList;
+    private final EmanSNMPBinding snmpBinding = new EmanSNMPBinding();
+    private final DataBroker dataBroker;
+    private final List<EoDevice> eoDeviceList = new ArrayList<>();
 
-    @Override
-    public void onSessionInitiated(ProviderContext session) {
-        LOG.info("EmanProvider: onSessionInitiated");
-        this.dataBroker = session.getSALService(DataBroker.class);
-        this.emanService = session.addRpcImplementation(EmanService.class, this);
-        this.snmpBinding = new EmanSNMPBinding();
-       
-        this.eoDeviceList = new ArrayList<EoDevice>();
-   }
-
-    @Override
-    public void close() throws Exception {
-        LOG.info("EmanProvider Closed");
-        if (emanService != null) {
-             emanService.close();
-        }
+    public EmanProvider(DataBroker dataBroker) {
+        this.dataBroker = dataBroker;
     }
 
-    /* Implements getEoAttribute RPC from eman.yang. Is intended to query device capability and 
-        interface with device using appropriate protocol. Currently assumes SNMP 
+    public void init() {
+        LOG.info("EmanProvider initialized");
+    }
+
+    @Override
+    public void close() {
+        LOG.info("EmanProvider Closed");
+    }
+
+    /* Implements getEoAttribute RPC from eman.yang. Is intended to query device capability and
+        interface with device using appropriate protocol. Currently assumes SNMP
         To do: generalize to arbitrary device-level protocol
     */
     @Override
     public Future<RpcResult<GetEoAttributeOutput>> getEoAttribute(GetEoAttributeInput input) {
- 		LOG.info("EmanProvider: getEoAttribute: ");
- 		
- 		if (input == null) {
- 		    LOG.info("EmanProvider: getEoAttribute: input equals null");
- 		}
+         LOG.info("EmanProvider: getEoAttribute: ");
 
- 		// parse input
- 		String deviceIP = input.getDeviceIP();
- 		String attribute = input.getAttribute();
- 		String msg = null;
- 		
- 		/* Hardcoded to query device via SNMP.
- 		    To do: generalize to support other device level protocols
- 		*/
- 		if (true /* device capabilities == SNMP */) {
-     		msg = snmpBinding.getEoAttrSNMP(deviceIP, attribute);
- 		}
+         if (input == null) {
+             LOG.info("EmanProvider: getEoAttribute: input equals null");
+         }
+
+         // parse input
+         String deviceIP = input.getDeviceIP();
+         String attribute = input.getAttribute();
+         String msg = null;
+
+         /* Hardcoded to query device via SNMP.
+             To do: generalize to support other device level protocols
+         */
+         if (true /* device capabilities == SNMP */) {
+             msg = snmpBinding.getEoAttrSNMP(deviceIP, attribute);
+         }
 
         GetEoAttributeOutput output = new GetEoAttributeOutputBuilder()
             .setResponse("Get attribute " + attribute + " " +msg)
@@ -104,22 +86,22 @@ public class EmanProvider implements BindingAwareProvider, EmanService, AutoClos
 
      }
 
-    /* Implements setEoAttribute RPC from eman.yang. Is intended to query device capability and 
-        interface with device using appropriate protocol. Currently assumes SNMP 
+    /* Implements setEoAttribute RPC from eman.yang. Is intended to query device capability and
+        interface with device using appropriate protocol. Currently assumes SNMP
         To do: generalize to arbitrary device-level protocol
     */
     @Override
     public Future<RpcResult<SetEoAttributeOutput>> setEoAttribute(SetEoAttributeInput input) {
- 		LOG.info("EmanProvider: setEoAttribute: ");
+         LOG.info("EmanProvider: setEoAttribute: ");
 
- 		// parse input
- 		String deviceIP = input.getDeviceIP();
- 		String attribute = input.getAttribute();
- 		String value = input.getValue();
- 		String msg = null;
- 		
- 		// Hardcoded to interface w device via SNMP
- 		if (true /* device capabilities == SNMP */) {
+         // parse input
+         String deviceIP = input.getDeviceIP();
+         String attribute = input.getAttribute();
+         String value = input.getValue();
+         String msg = null;
+
+         // Hardcoded to interface w device via SNMP
+         if (true /* device capabilities == SNMP */) {
             msg = snmpBinding.setEoAttrSNMP(deviceIP, attribute, value);
         }
 
@@ -129,47 +111,47 @@ public class EmanProvider implements BindingAwareProvider, EmanService, AutoClos
         return RpcResultBuilder.success(output).buildFuture();
     }
 
-   
-    /* Implements getEoDevicePowerMeasures RPC from eman.yang. 
+
+    /* Implements getEoDevicePowerMeasures RPC from eman.yang.
         Queries device for powerMeasures and writes to MD_SAL.
-        Is intended to query device capability and 
-        interface with device using appropriate protocol. Currently assumes SNMP 
+        Is intended to query device capability and
+        interface with device using appropriate protocol. Currently assumes SNMP
         To do: generalize to arbitrary device-level protocol
     */
     @Override
     public Future<RpcResult<GetEoDevicePowerMeasuresOutput>> getEoDevicePowerMeasures(GetEoDevicePowerMeasuresInput input) {
- 		List<EoPowerMeasurement> pwrMList;
- 		EoDevice eoDevice;
+         List<EoPowerMeasurement> pwrMList;
+         EoDevice eoDevice;
 
- 		LOG.info("EmanProvider: getDevicePowerMeasures: ");
-        
- 		// parse input
- 		String deviceIP = input.getDeviceIP();
- 		EoPowerMeasurement pwrM = null;	
- 		
- 		// eoDeviceList is class collection of eoDevices 
- 		if (eoDeviceList.isEmpty()) {        
+         LOG.info("EmanProvider: getDevicePowerMeasures: ");
+
+         // parse input
+         String deviceIP = input.getDeviceIP();
+         EoPowerMeasurement pwrM = null;
+
+         // eoDeviceList is class collection of eoDevices
+         if (eoDeviceList.isEmpty()) {
             eoDevice = new EoDeviceBuilder()
                .setKey( new EoDeviceKey(0) )
                .setIPAddress(deviceIP)
                .setEoPowerMeasurement(new ArrayList<EoPowerMeasurement>())
                .build();
-           
+
             eoDeviceList.add(eoDevice);
- 		}
- 		else {
+         }
+         else {
             // To Do: search for existing device w this IP, or create
- 		    eoDevice = eoDeviceList.get(0);
- 		}
-			
- 		// Hardcoded to query device via SNMP
- 		if (true /* device capabilities == SNMP */) {
+             eoDevice = eoDeviceList.get(0);
+         }
+
+         // Hardcoded to query device via SNMP
+         if (true /* device capabilities == SNMP */) {
             pwrMList = eoDevice.getEoPowerMeasurement();
- 		    int key = pwrMList.size();
-            pwrM = snmpBinding.getDevicePwrMsrSNMP(deviceIP, key);            
+             int key = pwrMList.size();
+            pwrM = snmpBinding.getDevicePwrMsrSNMP(deviceIP, key);
             pwrMList.add(pwrM);
-        } 
-       
+        }
+
         /* Simple writes to MD-SAL of eoDevice and associated EoPowerMeasurement
             To do: extend to support flexible writes of entire model
         */
