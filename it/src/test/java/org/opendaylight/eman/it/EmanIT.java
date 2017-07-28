@@ -30,20 +30,10 @@ public class EmanIT extends AbstractMdsalTestBase {
     private static final Logger LOG = LoggerFactory.getLogger(EmanIT.class);
 
     @Override
-    public String getModuleName() {
-        return "eman";
-    }
-
-    @Override
-    public String getInstanceName() {
-        return "eman-default";
-    }
-
-    @Override
     public MavenUrlReference getFeatureRepo() {
         return maven()
                 .groupId("org.opendaylight.eman")
-                .artifactId("eman-features")
+                .artifactId("features-eman")
                 .classifier("features")
                 .type("xml")
                 .versionAsInProject();
