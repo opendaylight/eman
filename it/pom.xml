@@ -36,8 +36,10 @@ and is available at http://www.eclipse.org/legal/epl-v10.html
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>eman-features</artifactId>
+      <artifactId>features-eman</artifactId>
       <version>${project.version}</version>
+      <classifier>features</classifier>
+      <type>xml</type>
     </dependency>
   </dependencies>
 

@@ -43,7 +43,7 @@ public class EmanIT extends AbstractMdsalTestBase {
     public MavenUrlReference getFeatureRepo() {
         return maven()
                 .groupId("org.opendaylight.eman")
-                .artifactId("eman-features")
+                .artifactId("features-eman")
                 .classifier("features")
                 .type("xml")
                 .versionAsInProject();
