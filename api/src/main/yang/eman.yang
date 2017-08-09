@@ -169,6 +169,13 @@
     rpc get-eoDevicePowerMeasures {
         input {
             leaf deviceIP {type string;}
+            leaf protocol {
+                type enumeration {
+                    enum snmp {value 1;}
+                    enum http {value 2;}
+                }
+                default http;
+            }
         }
         output {
             leaf response {type string;}
