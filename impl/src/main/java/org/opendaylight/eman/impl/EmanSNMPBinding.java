@@ -184,7 +184,7 @@ public class EmanSNMPBinding {
 
     /* Set Energy Object attribute via ODL SNMP API
     */
-	public String setEoAttrSNMP(String deviceIP, String attribute, String value) {
+	public String setEoPowerMeasurementAttribute(String deviceIP, String attribute, String value) {
 		/* To do: generalize targetURL */
 		String targetUrl = "http://localhost:8181/restconf/operations/snmp:snmp-set";
 		String bodyString = buildSNMPSetBody(deviceIP, attribute, value);
@@ -221,8 +221,8 @@ public class EmanSNMPBinding {
 	/* Reads eoPowerMeasurement attributes vis ODL SNMP API and writes to MD-SAL
 	    Currently rather inefficient as it loops through list of resources, reading sequentially
 	*/
-	public EoPowerMeasurement getDevicePwrMsrSNMP(String deviceIP, int key) {
- 		LOG.info( "EmanSNMPBinding.getDevicePwrMsrSNMP: ");
+	public EoPowerMeasurement getEoPowerMeasurement(String deviceIP, int key) {
+ 		LOG.info( "EmanSNMPBinding.getEoPowerMeasurement: ");
  		
 // 		LocalDateTime now = LocalDateTime.now();
                 

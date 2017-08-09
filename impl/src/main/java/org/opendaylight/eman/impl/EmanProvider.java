@@ -39,6 +39,7 @@ public class EmanProvider implements EmanService, AutoCloseable {
 
     private static final Logger LOG = LoggerFactory.getLogger(EmanProvider.class);
     private final EmanSNMPBinding snmpBinding = new EmanSNMPBinding();
+    private final EmanHTTPBinding httpBinding = new EmanHTTPBinding();
     private final DataBroker dataBroker;
     private final List<EoDevice> eoDeviceList = new ArrayList<>();
 
@@ -75,9 +76,12 @@ public class EmanProvider implements EmanService, AutoCloseable {
          /* Hardcoded to query device via SNMP.
              To do: generalize to support other device level protocols
          */
-         if (true /* device capabilities == SNMP */) {
-             msg = snmpBinding.getEoAttrSNMP(deviceIP, attribute);
-         }
+ 		if (false /* device capabilities == SNMP */) {
+            msg = snmpBinding.getEoAttrSNMP(deviceIP, attribute);
+        }
+        else {
+            msg = httpBinding.getEoPowerMeasurementAttribute(deviceIP, attribute);
+        }
 
         GetEoAttributeOutput output = new GetEoAttributeOutputBuilder()
             .setResponse("Get attribute " + attribute + " " +msg)
@@ -101,8 +105,11 @@ public class EmanProvider implements EmanService, AutoCloseable {
          String msg = null;
 
          // Hardcoded to interface w device via SNMP
-         if (true /* device capabilities == SNMP */) {
-            msg = snmpBinding.setEoAttrSNMP(deviceIP, attribute, value);
+ 		if (false /* device capabilities == SNMP */) {
+            msg = snmpBinding.setEoPowerMeasurementAttribute(deviceIP, attribute, value);
+        }
+        else {
+            msg = httpBinding.setEoPowerMeasurementAttribute(deviceIP, attribute, value);
         }
 
         SetEoAttributeOutput output = new SetEoAttributeOutputBuilder()
@@ -122,12 +129,16 @@ public class EmanProvider implements EmanService, AutoCloseable {
     public Future<RpcResult<GetEoDevicePowerMeasuresOutput>> getEoDevicePowerMeasures(GetEoDevicePowerMeasuresInput input) {
          List<EoPowerMeasurement> pwrMList;
          EoDevice eoDevice;
+ 		 String msg;
 
          LOG.info("EmanProvider: getDevicePowerMeasures: ");
 
          // parse input
          String deviceIP = input.getDeviceIP();
+         String protocol = input.getProtocol().getName();
          EoPowerMeasurement pwrM = null;
+
+         LOG.info("EmanProvider: protocol: " + protocol);
 
          // eoDeviceList is class collection of eoDevices
          if (eoDeviceList.isEmpty()) {
@@ -144,37 +155,52 @@ public class EmanProvider implements EmanService, AutoCloseable {
              eoDevice = eoDeviceList.get(0);
          }
 
-         // Hardcoded to query device via SNMP
-         if (true /* device capabilities == SNMP */) {
-            pwrMList = eoDevice.getEoPowerMeasurement();
-             int key = pwrMList.size();
-            pwrM = snmpBinding.getDevicePwrMsrSNMP(deviceIP, key);
+			
+        pwrMList = eoDevice.getEoPowerMeasurement();
+        int key = pwrMList.size();
+ 		// TBD: add logic to determine southbound protocol based on device capabilities
+ 		if (protocol.equals("snmp")) {
+            pwrM = snmpBinding.getEoPowerMeasurement(deviceIP, key);            
+            LOG.info("EmanProvider: using snmpBinding: ");
+        } 
+        else {
+            pwrM = httpBinding.getEoPowerMeasurement(deviceIP, key);            
+            LOG.info("EmanProvider: using httpBinding: ");
+        }
+        
+        if (pwrM != null) {
+        
             pwrMList.add(pwrM);
-        }
 
-        /* Simple writes to MD-SAL of eoDevice and associated EoPowerMeasurement
-            To do: extend to support flexible writes of entire model
-        */
-        WriteTransaction tx = dataBroker.newWriteOnlyTransaction();
-        InstanceIdentifier<EoDevice> iid = InstanceIdentifier.create(EoDevices.class).child(EoDevice.class, eoDevice.getKey());
-        tx.put(LogicalDatastoreType.OPERATIONAL, iid, eoDevice);
-        try {
-            tx.submit().checkedGet();
-        } catch (TransactionCommitFailedException e) {
-            LOG.error("Transaction failed: {}", e.toString());
-        }
+            /* Simple writes to MD-SAL of eoDevice and associated EoPowerMeasurement
+                To do: extend to support flexible writes of entire model
+            */
+            WriteTransaction tx = dataBroker.newWriteOnlyTransaction();
+            InstanceIdentifier<EoDevice> iid = InstanceIdentifier.create(EoDevices.class).child(EoDevice.class, eoDevice.getKey());
+            tx.put(LogicalDatastoreType.OPERATIONAL, iid, eoDevice);
+            try {
+                tx.submit().checkedGet();
+            } catch (TransactionCommitFailedException e) {
+                LOG.error("Transaction failed: {}", e.toString());
+            }
 
-        InstanceIdentifier<EoPowerMeasurement> pid = iid.builder().child(EoPowerMeasurement.class, pwrM.getKey()).build();
-        WriteTransaction tx2 = dataBroker.newWriteOnlyTransaction();
-        tx2.put(LogicalDatastoreType.OPERATIONAL, pid, pwrM);
-        try {
-            tx2.submit().checkedGet();
-        } catch (TransactionCommitFailedException e) {
-            LOG.error("Transaction failed: {}", e.toString());
+            InstanceIdentifier<EoPowerMeasurement> pid = iid.builder().child(EoPowerMeasurement.class, pwrM.getKey()).build();
+            WriteTransaction tx2 = dataBroker.newWriteOnlyTransaction();
+            tx2.put(LogicalDatastoreType.OPERATIONAL, pid, pwrM);
+            try {
+                tx2.submit().checkedGet();
+            } catch (TransactionCommitFailedException e) {
+                LOG.error("Transaction failed: {}", e.toString());
+            }
+            msg = "getEoDevicePowerMeasures: success";
+        }
+        else {
+            LOG.error("getEoDevicePowerMeasures: pwrM == null");
+            msg = "getEoDevicePowerMeasures: failed";
         }
 
         GetEoDevicePowerMeasuresOutput output = new GetEoDevicePowerMeasuresOutputBuilder()
-            .setResponse("getEoDevicePowerMeasures: success")
+            .setResponse(msg)
             .build();
         return RpcResultBuilder.success(output).buildFuture();
     }
