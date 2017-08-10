@@ -138,8 +138,6 @@ public class EmanProvider implements EmanService, AutoCloseable {
          String protocol = input.getProtocol().getName();
          EoPowerMeasurement pwrM = null;
 
-         LOG.info("EmanProvider: protocol: " + protocol);
-
          // eoDeviceList is class collection of eoDevices
          if (eoDeviceList.isEmpty()) {
             eoDevice = new EoDeviceBuilder()
@@ -161,7 +159,6 @@ public class EmanProvider implements EmanService, AutoCloseable {
  		// TBD: add logic to determine southbound protocol based on device capabilities
  		if (protocol.equals("snmp")) {
             pwrM = snmpBinding.getEoPowerMeasurement(deviceIP, key);            
-            LOG.info("EmanProvider: using snmpBinding: ");
         } 
         else {
             pwrM = httpBinding.getEoPowerMeasurement(deviceIP, key);            
