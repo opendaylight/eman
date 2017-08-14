@@ -18,7 +18,7 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
 
   <groupId>org.opendaylight.eman</groupId>
   <artifactId>features-aggregator</artifactId>
-  <version>1.2.0-SNAPSHOT</version>
+  <version>1.3.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>ODL :: eman :: ${project.artifactId}</name>
 
