@@ -23,7 +23,6 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
   <name>ODL :: eman :: ${project.artifactId}</name>
 
   <modules>
-    <module>features-eman</module>
     <module>odl-eman-api</module>
     <module>odl-eman</module>
     <module>odl-eman-ui</module>
