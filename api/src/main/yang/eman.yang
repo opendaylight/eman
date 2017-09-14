@@ -21,159 +21,421 @@
         
         This model is intended to support the IETF eman MIB models. For instance, 
         the eoPowerMeasurement object reflects the EoPowerEntry object found in
-        ENERGY-OBJECT-MIB
+        ENERGY-OBJECT-MIB.
+        
+        We have adopted a convention in which names of groupings are capitalized 
+        end in 'Object'. Names of leafs and containers are not capitalized.
         ";
 
     revision "2017-01-05" {
         description "Initial revision of eman model. This is a WORK IN PROGRESS and 
         contains data type definitions and other elements that should be refined";
     }
-    
-	grouping eoMeasurementGroup {
-        list eoPowerMeasurement {
-            key id;
-            leaf id { type int32; }
-            leaf timeStamp { type string; }
-            leaf eoPower { type int32; }
-            leaf eoPowerNameplate { type int32; }
-            leaf eoPowerUnitMultiplier { type int32; }
-            leaf eoPowerAccuracy { type int32; }
-            leaf eoPowerMeasurementCaliber { type int32; }
-            leaf eoPowerCurrentType { type int32; }
-            leaf eoPowerMeasurementLocal { type int32; }
-            leaf eoPowerAdminState { type int32; }
-            leaf eoPowerOperState { type int32; }
-            leaf eoPowerStateEnterReason { type int32; }
-            description "an instance of a power measurement from an energy object
-                To do: update data types
-                eoPowerUnitMultiplier should be IETF ENERGY-OBJECT-MIB UnitMultiplier
-                eoPowerAdminState and eoPowerOperState should be IETF eman enum PowerStateSet
-                eoPowerStateEnterReason should be IETF eman OwnerString";
-        }
         
-/* 
-        TBD: implement these parts of the model
-	    list eoPowerStateRecord {
-            key id;
-            leaf id {type int32; }
-	        leaf timeStamp { type timestamp; }
-	        leaf eoPowerStatemaxPower { type int32; }
-	        leaf eoPowerStatePowerUnitMultiplier { type int32; }
-	        leaf eoPowerStateTotalTime { type int32; }
-	        leaf eoPowerStateEnterCount { type int32; }
-	        description "a record for each power state inhabited by an energy object
-	            To do: update types";
-	    }
-        list eoEnergyMeasurement {
-            key id;
-            leaf id {type int32; }
-            leaf timeStamp { type timestamp; }
-            leaf eoEnergyConsumed { type int32; }
-            leaf eoEnergyProvided { type int32; }
-            leaf eoEnergyStored { type int32; }
-            leaf eoEnergyUnitMultiplier { type int32; }
-            leaf eoEnergyAccuracy { type int32; }
-            leaf eoEnergyMaxConsumed { type int32; }
-            leaf eoEnergyMaxProduced { type int32; }
-            leaf eoEnergyDiscontinuityTime { type int32; }
-            description "an instance of an energy measurement from an energy object
-                To do: update data types";
+    grouping MeasurementObject {
+        leaf multiplier {
+           type int32 {
+                range "-24..24";
+           }
+           config false;
+           description "The magnitude of the Measurement. See RFC 7326";
+        }
+        leaf caliber {
+            type enumeration {
+                enum actual {description "specifies how the Measurement was obtained. See RFC 7326";}
+                enum estimated {description "specifies how the Measurement was obtained. See RFC 7326";}
+                enum static {description "specifies how the Measurement was obtained. See RFC 7326";}
+            }
+           config false;
+           description "Specifies how the Measurement was obtained";
+        }
+        leaf accuracy {
+            type uint32 {
+                range "0..10000";
+            }
+            config false;
+            description "Specifies the accuracy of the measurement, if applicable, indicating hundreds of percent";
+        }
+        description "base class for measurement classes";
+   }    
+    
+    grouping PowerMeasurementObject {
+        uses MeasurementObject;
+        leaf value {
+            type uint32;
+            config false;
+            description "A measurement value of power";
+        }
+        leaf units {
+            type string;
+            default "W";
+            config false;
+            description "The units of measure for the power -- Watts";
+        }
+/*
+        container powerAttribute {
+            if-feature power-attributes;
+            uses PowerAttributeObject;
+            description "description";
         }
 */
+        description "The present power measurement of he Energy Objec";
     }
     
-    grouping energyObject {
-        uses eoMeasurementGroup;
+    grouping TimedMeasurementObject {
+        leaf startTime {
+            type uint32;
+            config false;
+            description "A start time of a measurement";
+        }
+        container value {
+            uses PowerMeasurementObject;
+            description "A measurement value";
+        }
+        container maximum {
+            uses PowerMeasurementObject;
+            description "A maximum value measured since a previous timestamp";
+        }
+        description "A collection of timedMeasurements to compute demand.
+            RFC 7326 indicates this should support any subclass of measurement, but YANG limits the
+            ability to support polymorphism via the choice statement by requiring that each identifier be unique across cases.
+            We have chosen to constrain value and maximum to type PowerMeasurement";
     }
-    	   
+
+    grouping TimeIntervalObject {
+        leaf value {
+            type uint64;
+            config false;
+            description "A value of time";
+        }
+        leaf units  {
+            type enumeration {
+                enum second {description "A magnitude of time";}
+                enum decisecond {description "A magnitude of time";}
+                enum centisecond {description "A magnitude of time";}
+                enum milliisecond {description "A magnitude of time";}
+                enum microsecond {description "A magnitude of time";}
+                enum nanoosecond {description "A magnitude of time";}
+            }
+            config false;
+            description "A magnitude of time, expressed as seconds with an SI prefix";
+        }
+        description "an interval of time";
+    }
+
+    grouping DemandMeasurementObject {
+        uses MeasurementObject;
+        container intervalLength  {
+            uses TimeIntervalObject;
+            description "The length of time over which to compute average energy";
+        }
+        leaf intervals {
+            type uint64;
+            config false;
+            description "The number of intervals that can be measured";
+        }
+        leaf intervalMode {
+            type enumeration {
+                enum periodic {description "periodic mode";}
+                enum sliding {description "sliding mode";}
+                enum total {description "total mode";}
+            }
+            config false;
+            description "The mode of interval measurement";
+        }
+        container intervalWindow  {
+            uses TimeIntervalObject;
+            description "The duration between the starting time of one sliding window and
+                  the next starting time";
+        }
+        container sampleRate {
+            uses TimeIntervalObject;
+            description "The sampling rate at which to poll power in order to compute demand";
+        }
+        leaf status {
+            type enumeration {
+                enum active {description "active control";}
+                enum inactive {description "inactive control";}
+            }
+            description "A control to start or stop demand  measurement";
+        }
+        list measurements {
+            key name;
+            leaf name {
+                type string;
+                description "unique key value for this instance";
+            }
+            container timedMeasurement {
+                uses TimedMeasurementObject;
+                description "a TimedMeasurement";
+            }
+            description "collection of TimedMeasurement objects";
+        }
+        description "The present demand measurementfor the Energy Object";
+    }
+
+    grouping PowerStateObject {
+        leaf powerStateIdentifier  {
+            type uint32;
+            config false;
+            description "An IANA-assigned value indicatinga Power State Set";
+        }
+        leaf name  {
+            type string;
+            config false;
+            description "A Power State Set name";
+        }
+        leaf cardinality  {
+            type uint32;
+            config false;
+            description "A value indicating an ordering of the Power State";
+        }
+        container maximumPower {
+            uses PowerMeasurementObject;
+            description "Indicates the maximum power for the Energy Object at this Power State";
+        }
+        leaf totalTimeInState   {
+            type yang:timeticks;
+            config false;
+            description "Indicates the total time an Energy Object has been in this Power State since
+                the last reset. NOTE: RFC 7362 indicates this is of type Time ";
+        }
+        leaf entryCount  {
+            type uint64;
+            config false;
+            description "Indicates the number of times the Energy Object has entered or changed to
+                 this state";
+        }
+       description "A Power State is a condition or mode of a device (or component)
+                          that broadly characterizes its capabilities, power, and
+                          responsiveness to input";
+    }
+
+    grouping PowerStateSetObject {
+        leaf powerStateIdentifier  {
+            type uint32;
+            config false;
+            description "An IANA-assigned value indicatinga Power State Set";
+        }
+        leaf name  {
+            type string;
+            config false;
+            description "A Power State Set name";
+        }
+        list powerStates {
+            key name;
+            leaf name {
+                type string;
+                description "unique key value for this instance";
+            }
+            container powerState {
+                uses PowerStateObject;
+                description "a PowerState";
+            }
+            description "collection of powerState objects";
+        }
+        leaf operState   {
+            type uint32;
+            config false;
+            description "The current operational Power State";
+        }
+        leaf adminState   {
+            type uint32;
+            description "The desired Power State";
+        }
+        leaf reason  {
+            type string;
+            config false;
+            description "Describes the reason for the adminState";
+        }
+        leaf configuredTime  {
+            type yang:timestamp;
+            config false;
+            description "Indicates the time of the desired Power State.";
+        }
+        description "A Power State Set is a collection of Power States that comprises a
+                           named or logical control grouping";
+    }
+    
+    feature eoObject-name {
+        description "Every Energy Object has an optional unique human-readable printable
+                        name";
+    }
+
+    feature eoObject-alternateKey {
+        description "An alternate key is provided to allow an Energy Object
+                         to be optionally linked with models in different systems";
+    }
+
+    feature eoObject-energy {
+        description "The Energy Object (Class) contains optional attributes that represent
+                        the energy used";
+    }
+
+    feature eoObject-demand {
+        description "The Energy Object (Class) contains optional attributes that represent
+                        demand information over time.";
+    }
+
+    grouping EnergyObject {
+        leaf index {
+            type uint32;
+            description "An [RFC6933] entPhysicalIndex";
+        }
+        leaf name {
+            if-feature eoObject-name;
+            type string;
+            description "An [RFC6933] entPhysicalName";
+        }
+        leaf identifier {
+            type int64;
+            description "An [RFC6933] entPhysicalUUID. NOTE: RFC 7326 indicates this is of type uuid";
+        }
+        leaf alternateKey {
+            if-feature eoObject-alternateKey;
+            type string;
+            description "A manufacturer-defined string that can be used to identify the Energy Object";
+        }
+        leaf domainName {
+            type string;
+            description "The name of an Energy Management Domain for the Energy Object";
+        }
+        leaf role {
+            type string;
+            description "An administratively assigned name to indicate the purpose an
+                 Energy Object serves in the network";
+        }
+        leaf keywords {
+            type string;
+            description "A list of keywords or [0..n] tags  that can be used to group Energy
+                 Objects for reporting or searching";
+        }
+        leaf importance {
+            type uint32;
+            description "Specifies a ranking of howimportant the Energy Object is
+                (on a scale of 1 to 100) compared with other Energy Objects";
+        }
 /*
-    TBD: implement these parts of the model 
-    grouping powerInterface {
-        key id;
-        leaf id {type int32;}
-        uses energyObject;
-        description "power interface associated with device or component";
+        list relationships {
+            key name;
+            leaf name {
+                type string;
+                description "unique key value for this instance";
+            }
+            container relationship {
+                uses RelationshipObject;
+                description "a Relationship";
+            }
+            description "collection of Relationship";
+        }
+        container nameplate {
+            uses NameplateObject;
+            description "The nominal PowerMeasurement of the Energy Object as specified by the device manufacturer";
+        }
+*/
+        container power {
+            uses PowerMeasurementObject;
+            description "The present power measurement of the Energy Object";
+        }
+/*
+        container energy {
+            if-feature eoObject-energy;
+            uses EnergyMeasurementObject;
+            description "The present energy measurement for the Energy Object";
+        }
+*/
+        container demand {
+            if-feature eoObject-demand;
+            uses DemandMeasurementObject;
+            description "description";
+        }        
+        list powerControls {
+            key name;
+            leaf name {
+                type string;
+                description "unique key value for this instance";
+            }
+            container powerControl {
+                uses PowerStateSetObject;
+                description "a PowerStateSet";
+            }
+            description "collection of PowerStateSet";
+        }
+        description "base class for device, powerInterface, and component";
     }
     
-    grouping component {
-        key id;
-        leaf id {type int32;}
-        uses energyObject;
+    grouping EoDeviceObject {
+        leaf eocategory {
+            type enumeration {
+                enum producer {description "energy object category";}
+                enum consumer {description "energy object category";}
+                enum meter {description "energy object category";}
+                enum distributor {description "energy object category";}
+                enum store {description "energy object category";}
+            }
+            config false;
+            description "energy object category";
+        }
+        uses EnergyObject;
+/*
         list powerInterfaces {
             key name;
-            uses powerInterface;
+            leaf name {
+                type string;
+                description "unique key value for this instance";
+            }
+            container powerInterface  {
+                uses PowerInterface;
+                description "a power interface";
+            }
+            description "collection of power interfaces";
         }
-        description "atomic energy object. should include list of sub-components ";
-    }
+        list components {
+            key name;
+            leaf name {
+                type string;
+                description "unique key value for this instance";
+            }
+            container component {
+                uses Component;
+                description "a component";
+            }
+            description "collection of components";
+        }
 */
-
+        description "Representaiton of a 'energy object' device'";
+    }
+    
+    	   
     container eoDevices {
-        list eoDevice {
+        list EoDeviceEntry {
             key id;
             leaf id {type int32;}
-            leaf IPAddress {type string;}
-            uses energyObject;
+            leaf name {
+                type string;
+                description "unique key value for this instance";
+            }
+            container EoDevice {
+                uses EoDeviceObject;
+                description "an eoDevice";
+            }
 
-            /* implement these parts of the model
-            list powerInterfaces {
-                key name;
-                uses powerInterface;
-            }
-            list components {
-                key name;
-                uses component;
-            }
-            */
         }
         description "root of enam api";
     }
 
-    
-/* 
-    TBD: implement these parts of the model
-    notification powerState-change {
-        leafref eoPowerMeasurement:eoPowerAdminState;
-        leafref eoPowerMeasurement:eoPowerOperState;
-        description "notification on power state change";
-    }
 
-*/
-
-    /* Very simple API, just set and get. User passes in string indicating resource in 
-    Information Model
-    */
-
-    rpc get-eoAttribute {
+    rpc poll-eoDevice {
         input {
             leaf deviceIP {type string;}
-            leaf attribute {type string;}
+            leaf protocol {type string;}
+            leaf numSamples {type int32;}
+            leaf period {type int32;}
         }
         output {
             leaf response {type string;}
         }
-        description "query device for a specific attribute, i.e. eoPower";
-    }
-
-    rpc set-eoAttribute {
-        input {
-            leaf deviceIP {type string;}
-            leaf attribute {type string;}
-            leaf value {type string;}
-        }
-        output {
-            leaf response {type string;}
-        }
-        description "set a specific attribute on a device, i.e. eoPowerAdminState";
-    }
-
-    rpc get-eoDevicePowerMeasures {
-        input {
-            leaf deviceIP {type string;}
-        }
-        output {
-            leaf response {type string;}
-        }
-        description "read the eoPowerMeasurement on a device and write an instance into MD-SAL";
+        description "read an eoDevice and collect TimedMeasurements, and write into MD-SAL";
     }
 
 }

@@ -35,24 +35,9 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 
 import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.EmanService;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.GetEoAttributeInput;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.GetEoAttributeOutput;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.GetEoAttributeOutputBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.SetEoAttributeInput;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.SetEoAttributeOutput;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.SetEoAttributeOutputBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.GetEoDevicePowerMeasuresInput;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.GetEoDevicePowerMeasuresOutput;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.GetEoDevicePowerMeasuresOutputBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.EoDevicesBuilder;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.EoDeviceObject;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.EoDevices;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eodevices.EoDeviceBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eodevices.EoDevice;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eodevices.EoDeviceKey;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eomeasurementgroup.EoPowerMeasurementBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eomeasurementgroup.EoPowerMeasurement;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eomeasurementgroup.EoPowerMeasurementKey;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.EnergyObject;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eodevices.EoDeviceEntry;
 
 public class EmanSNMPBinding {
     private static final Logger LOG = LoggerFactory.getLogger(EmanProvider.class);
@@ -221,11 +206,10 @@ public class EmanSNMPBinding {
 	/* Reads eoPowerMeasurement attributes vis ODL SNMP API and writes to MD-SAL
 	    Currently rather inefficient as it loops through list of resources, reading sequentially
 	*/
-	public EoPowerMeasurement getDevicePwrMsrSNMP(String deviceIP, int key) {
+	public EoDeviceEntry getDevicePwrMsrSNMP(String deviceIP, int key) {
  		LOG.info( "EmanSNMPBinding.getDevicePwrMsrSNMP: ");
  		
-// 		LocalDateTime now = LocalDateTime.now();
-                
+/*                
         // Instantiate EoPowerMeasurement object
         EoPowerMeasurement pwrM = new EoPowerMeasurementBuilder()
             .setKey( new EoPowerMeasurementKey(key) )
@@ -241,8 +225,8 @@ public class EmanSNMPBinding {
             .setEoPowerOperState( Integer.parseInt( getEoAttrSNMP(deviceIP, eoPowerMeasurementAttrs[8]) ) )
 //            .setEoPowerStateEnterReason( Integer.parseInt( getEoAttrSNMP(deviceIP, eoPowerMeasurementAttrs[9]) ) )
             .build();
-            
-        return pwrM;
+*/            
+        return null;
  
     }	    
 
