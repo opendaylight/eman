@@ -1,0 +1,138 @@
+{ "eoDevices" : { "eoDeviceEntries" : [   
+    { 
+        "name" : "eoDeviceEntry1",
+        "EoDevice" : {
+            "eoCategory" : "consumer",
+            "index" : 0,
+            "name" : "Doug",
+            "identifier" : 0,
+            "alternateKey" : "none",
+            "domainName" : "domain",
+            "role" : "consume",
+            "keyWords" : "none",
+            "importance" : 1,
+            "power" : {
+                "multiplier" : 0,
+                "caliber" : "actual",
+                "accuracy" : 100,
+                "value" : 50,
+                "units" : "W"
+            },
+            "demand" : {
+                "multiplier" : 0,
+                "caliber" : "actual",
+                "accuracy" : 100,
+                "intervalLength" : {
+                    "value" : 1,
+                    "units" : "second"
+                },
+                "intervals" : 1,
+                "intervalMode" : "periodic",
+                "intervalWindow" :  {
+                    "value" : 1,
+                    "units" : "second"
+                },
+                "sampleRate" :  {
+                    "value" : 1,
+                    "units" : "second"
+                },
+                "status" : "active",
+                "measurements" : [
+                    {
+                        "name" : "msr1",
+                        "timedMeasurement" : {
+                            "startTime" : 1,
+                            "value" : {
+                                "multiplier" : 1,
+                                "caliber" : "actual",
+                                "accuracy" : 100,
+                                "value" : 45,
+                                "units" : "W"
+                            },
+                            "maximum" : {
+                                "multiplier" : 0,
+                                "caliber" : "actual",
+                                "accuracy" : 100,
+                                "value" : 50,
+                                "units" : "W"
+                            }
+                        }
+                    },
+                    {
+                        "name" : "msr2",
+                        "timedMeasurement" : {
+                            "startTime" : 1,
+                            "value" : {
+                                "multiplier" : 1,
+                                "caliber" : "actual",
+                                "accuracy" : 100,
+                                "value" : 40,
+                                "units" : "W"
+                            },
+                            "maximum" : {
+                                "multiplier" : 0,
+                                "caliber" : "actual",
+                                "accuracy" : 100,
+                                "value" : 50,
+                                "units" : "W"
+                            }
+                        }
+                    },
+                    {
+                        "name" : "msr3",
+                        "timedMeasurement" : {
+                            "startTime" : 1,
+                            "value" : {
+                                "multiplier" : 1,
+                                "caliber" : "actual",
+                                "accuracy" : 100,
+                                "value" : 42,
+                                "units" : "W"
+                            },
+                            "maximum" : {
+                                "multiplier" : 0,
+                                "caliber" : "actual",
+                                "accuracy" : 100,
+                                "value" : 50,
+                                "units" : "W"
+                            }
+                        }
+                    }
+                ]
+            },
+            "powerControls" : [
+                {
+                    "name" : "pc1",
+                    "powerControl" : {
+                        "powerStateIdentifier" : 3,
+                        "name" : "IANA named power state",
+                        "powerStates" : [
+                            {
+                                "name" : "ps1",
+                                "powerState" : {
+                                    "powerStateIdentifier" : 1,
+                                    "name" : "IANA named power state",
+                                    "cardinality" : 1,
+                                    "maximumPower" : {
+                                        "multiplier" : 0,
+                                        "caliber" : "actual",
+                                        "accuracy" : 100,
+                                        "value" : "50",
+                                        "units" : "W"
+                                    },
+                                    "totalTimeInState" : 1,
+                                    "entryCount" : 1
+                                }
+                            }
+                        ],
+                        "operState" : 1,
+                        "adminState" : 1,
+                        "reason" : "changed",
+                        "configuredTime" : 1                       
+                    }
+                }
+            ]
+        }
+    }
+    ]
+}}
