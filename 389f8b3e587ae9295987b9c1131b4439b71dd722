@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5c89f63_a7cfc6bc",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 773
+      },
+      "writtenOn": "2018-01-05T01:55:32Z",
+      "side": 1,
+      "message": "just delete this line since the files are removed",
+      "revId": "389f8b3e587ae9295987b9c1131b4439b71dd722",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
