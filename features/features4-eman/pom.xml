@@ -7,13 +7,13 @@
     <parent>
         <groupId>org.opendaylight.odlparent</groupId>
         <artifactId>feature-repo-parent</artifactId>
-        <version>1.8.3-SNAPSHOT</version>
+        <version>1.8.3-Carbon</version>
         <relativePath/>
     </parent>
 
     <groupId>org.opendaylight.eman</groupId>
     <artifactId>features4-eman</artifactId>
-    <version>1.1.3-SNAPSHOT</version>
+    <version>1.1.3-Carbon</version>
     <packaging>feature</packaging>
     <name>ODL :: eman :: ${project.artifactId}</name>
 
