@@ -18,7 +18,7 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
   
   <groupId>org.opendaylight.eman</groupId>
   <artifactId>odl-eman</artifactId>
-  <version>1.2.3-SNAPSHOT</version>
+  <version>1.2.3</version>
   <packaging>feature</packaging>
   <!-- <name> formatting is used by autorelease to parse and notify projects on
        build failure. Please do not modify this unless you have a good reason. -->
@@ -32,21 +32,21 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
     <dependency>
       <groupId>org.opendaylight.controller</groupId>
       <artifactId>odl-mdsal-broker</artifactId>
-      <version>1.6.3-SNAPSHOT</version>
+      <version>1.6.3</version>
       <classifier>features</classifier>
       <type>xml</type>
     </dependency>
     <dependency>
       <groupId>org.opendaylight.snmp</groupId>
       <artifactId>odl-snmp-plugin</artifactId>
-      <version>1.4.3-SNAPSHOT</version>
+      <version>1.4.3</version>
       <classifier>features</classifier>
       <type>xml</type>
     </dependency>
     <dependency>
       <groupId>org.opendaylight.eman</groupId>
       <artifactId>eman-api</artifactId>
-      <version>1.2.3-SNAPSHOT</version>
+      <version>1.2.3</version>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
