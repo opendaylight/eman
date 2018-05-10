@@ -11,7 +11,7 @@
 
     <groupId>org.opendaylight.eman</groupId>
     <artifactId>features-eman</artifactId>
-    <version>1.2.3-SNAPSHOT</version>
+    <version>1.2.4-SNAPSHOT</version>
     <packaging>feature</packaging>
     <name>ODL :: eman :: ${project.artifactId}</name>
 
