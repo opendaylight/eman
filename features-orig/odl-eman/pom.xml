@@ -32,10 +32,11 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
     <dependency>
       <groupId>org.opendaylight.controller</groupId>
       <artifactId>odl-mdsal-broker</artifactId>
-      <version>1.7.0-SNAPSHOT</version>
+        <version>1.4.4-Boron-SR4</version>
       <classifier>features</classifier>
       <type>xml</type>
     </dependency>
+<!--
     <dependency>
       <groupId>org.opendaylight.snmp</groupId>
       <artifactId>odl-snmp-plugin</artifactId>
@@ -43,6 +44,7 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
       <classifier>features</classifier>
       <type>xml</type>
     </dependency>
+-->
     <dependency>
       <groupId>org.opendaylight.eman</groupId>
       <artifactId>eman-api</artifactId>

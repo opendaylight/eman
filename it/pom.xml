@@ -8,15 +8,15 @@ and is available at http://www.eclipse.org/legal/epl-v10.html
 -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>org.opendaylight.controller</groupId>
     <artifactId>mdsal-it-parent</artifactId>
-    <version>1.7.0-SNAPSHOT</version>
+    <version>1.4.4-Boron-SR4</version>
     <relativePath/>
   </parent>
 
-  <modelVersion>4.0.0</modelVersion>
   <groupId>org.opendaylight.eman</groupId>
   <artifactId>eman-it</artifactId>
   <version>1.3.0-SNAPSHOT</version>
@@ -36,26 +36,11 @@ and is available at http://www.eclipse.org/legal/epl-v10.html
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>features-eman</artifactId>
+      <artifactId>eman-features</artifactId>
       <version>${project.version}</version>
       <classifier>features</classifier>
       <type>xml</type>
     </dependency>
   </dependencies>
 
-  <!--
-    Maven Site Configuration
-
-    The following configuration is necessary for
-    maven-site-plugin to correctly identify the correct deployment path for OpenDaylight
-    Maven sites.
-  -->
-  <url>${odl.site.url}/${project.groupId}/${stream}/${project.artifactId}/</url>
-
-  <distributionManagement>
-    <site>
-      <id>opendaylight-site</id>
-      <url>${nexus.site.url}/${project.artifactId}/</url>
-    </site>
-  </distributionManagement>
 </project>

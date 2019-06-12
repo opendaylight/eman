@@ -32,6 +32,10 @@ EOserver.py is a simple python web server that implements HTTP GET to provide an
  
  (to stop simulator, $ kill %python)
  
+ - test
+ $ curl http://localhost:9000
+ { "eoDevices" : ...
+ 
 2) To populate MD-SAL with contents of sample data and read data
 
 open a terminal and launch ODL w/ eman features. 

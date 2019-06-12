@@ -10,7 +10,7 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
   <parent>
     <groupId>org.opendaylight.odlparent</groupId>
     <artifactId>odlparent</artifactId>
-    <version>2.0.5</version>
+    <version>1.7.4-Boron-SR4</version>
     <relativePath/>
   </parent>
 
@@ -33,6 +33,12 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
 
   <developers>
     <developer>
+      <name>Frank Sandoval</name>
+      <email>francisrsandoval@gmail.com</email>
+      <organization>PajaritoTechnologies</organization>
+      <organizationUrl>http://www.pajaritotech.com</organizationUrl>
+    </developer>
+    <developer>
       <name>George Adam</name>
       <email>george_adam@comcast.com</email>
       <organization>Comcast</organization>
@@ -54,10 +60,10 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
   <modules>
     <module>api</module>
     <module>impl</module>
-    <module>karaf</module>
     <module>features</module>
     <module>artifacts</module>
     <module>it</module>
+    <module>karaf</module>
   </modules>
 
   <!-- DO NOT install or deploy the repo root pom as it's only needed to initiate a build -->
@@ -80,6 +86,41 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
     </plugins>
   </build>
 
+
+  <profiles>
+    <profile>
+      <!--
+          This profile is to ensure we only build javadocs reports
+          when we plan to deploy Maven site for our project.
+      -->
+      <id>maven-site</id>
+      <activation>
+        <file>
+          <exists>${user.dir}/deploy-site.xml</exists>
+        </file>
+      </activation>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <inherited>false</inherited>
+            <executions>
+              <execution>
+                <id>aggregate</id>
+                <goals>
+                  <goal>aggregate</goal>
+                </goals>
+                <phase>package</phase>
+            </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <!--
     Maven Site Configuration
 
@@ -94,37 +135,4 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
     </site>
   </distributionManagement>
 
-	<profiles>
-	  <profile>
-	    <!--
-	        This profile is to ensure we only build javadocs reports
-	        when we plan to deploy Maven site for our project.
-	    -->
-	    <id>maven-site</id>
-	    <activation>
-	      <file>
-	        <exists>${user.dir}/deploy-site.xml</exists>
-	      </file>
-	    </activation>
-
-	    <build>
-	      <plugins>
-	        <plugin>
-	          <groupId>org.apache.maven.plugins</groupId>
-	          <artifactId>maven-javadoc-plugin</artifactId>
-	          <inherited>false</inherited>
-	          <executions>
-	            <execution>
-	              <id>aggregate</id>
-	              <goals>
-	                <goal>aggregate</goal>
-	              </goals>
-	              <phase>package</phase>
-	          </execution>
-	          </executions>
-	        </plugin>
-	      </plugins>
-	    </build>
-	  </profile>
-	</profiles>
 </project>

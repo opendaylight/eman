@@ -27,95 +27,202 @@ import java.util.List;
 import java.util.ArrayList;
 
 import java.math.BigInteger;
+import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.yang.types.rev130715.Timeticks;
+import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.yang.types.rev130715.Timestamp;
 
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.EmanService;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.eodevices.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.eodevices.EoDevice.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.energygroup.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.energygroup.energyobject.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.energygroup.energyobject.relationships.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.energygroup.energyobject.relationships.Relationship.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.energygroup.energyobject.nameplate.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.energygroup.energyobject.powercontrols.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.Measurement.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.DemandMeasurement.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.demandmeasurement.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.demandmeasurement.timedmeasurements.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.demandmeasurement.timedmeasurements.timedmeasurement.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.TimeInterval.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.PowerStateSet.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.powerstateset.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.powerstateset.powerstates.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.powerstateset.powerstates.powerstate.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.eodevices.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.eodevices.eodevice.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.eodevices.eodevice.powerinterfaces.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.eodevices.eodevice.components.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.ACQuality.*;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.eman.rev171208.powermeasurement.*;
 
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.MeasurementObject;
-
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.PowerMeasurementObject;
-
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.TimedMeasurementObject;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.timedmeasurementobject.Value;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.timedmeasurementobject.ValueBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.timedmeasurementobject.Maximum;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.timedmeasurementobject.MaximumBuilder;
-
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.TimeIntervalObject;
-
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.DemandMeasurementObject;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.demandmeasurementobject.IntervalLength;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.demandmeasurementobject.IntervalWindow;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.demandmeasurementobject.SampleRate;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.demandmeasurementobject.Measurements;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.demandmeasurementobject.measurements.TimedMeasurement;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.demandmeasurementobject.measurements.TimedMeasurementBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.demandmeasurementobject.IntervalLengthBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.demandmeasurementobject.IntervalWindowBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.demandmeasurementobject.SampleRateBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.demandmeasurementobject.MeasurementsBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.demandmeasurementobject.MeasurementsKey;
-
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.PowerStateObject;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.powerstateobject.MaximumPower;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.powerstateobject.MaximumPowerBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.PowerStateSetObject;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.powerstatesetobject.PowerStates;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.powerstatesetobject.PowerStatesBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.powerstatesetobject.PowerStatesKey;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.powerstatesetobject.powerstates.PowerState;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.powerstatesetobject.powerstates.PowerStateBuilder;
-
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.EnergyObject;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.energyobject.Power;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.energyobject.PowerBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.energyobject.Demand;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.energyobject.DemandBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.energyobject.PowerControls;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.energyobject.PowerControlsBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.energyobject.powercontrols.PowerControl;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.energyobject.powercontrols.PowerControlBuilder;
-
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.EoDeviceObject;
-
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.EoDevices;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.EoDevicesBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eodevices.EoDeviceEntry;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eodevices.EoDeviceEntryBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eodevices.EoDeviceEntryKey;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eodevices.eodeviceentry.EoDevice;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eodevices.eodeviceentry.EoDeviceBuilder;
-
+/*
+*   EmanHTTPBinding queries energy device using HTTP protocol
+*/
 public class EmanHTTPBinding {
     private static final Logger LOG = LoggerFactory.getLogger(EmanProvider.class);
-    private static final List<Measurements> measurementsList = new ArrayList<>();
+
+    private static final List<TimedMeasurement> timedMeasurementList = new ArrayList<>();
+    private static final List<Relationship> relationshipList = new ArrayList<>();
+    private static final List<PowerControl> powerControlList = new ArrayList<>();
+    private static final List<PowerInterface> powerInterfaceList = new ArrayList<>();
+    private static final List<Component> componentList = new ArrayList<>();
+
+    /*
+    *   parse Json and write to corresponding java object
+    */
+    private Relationships getRelationships(JsonObject eoDeviceJObj) {
+        Relationships relationships = null;
+        Relationship relationship = null;
     
-    // parse a JSON EoDevice object to populate a Java Power object
-    private Power getPower(JsonObject eoDeviceJObj) {
+       try {
+            JsonObject relsJObj = eoDeviceJObj.getJsonObject("relationships");
+        
+             // create top-level object and add an array object. As we read data, add to array
+            if (relationships == null) {
+                 relationships = new RelationshipsBuilder()
+                .setRelationship(relationshipList)
+                .build();
+            }
+
+			JsonArray relArr = relsJObj.getJsonArray("relationship");
+
+			for (int i=0; i< relArr.size(); i++ ) {
+			    JsonObject relJObj = relArr.getJsonObject(i);
+                relationship = new RelationshipBuilder()
+                    .setRelationshipType(RelationshipType.valueOf(relJObj.getString("relationshipType")))
+                    .setRelationshipObject((relJObj.getJsonNumber("relationshipObject")).longValue())
+                    .build();
+                relationshipList.add(relationship);
+		    }
+		} catch (Exception ex) {
+			LOG.info(  "EmanHTTPBinding.getRelationships: catch Error: " + ex.getMessage(), ex);
+		}        
+        return (relationships);
+    }
+    
+    /*
+    *   parse Json and write to corresponding java object
+    */
+    private PowerAttribute getACQuality(JsonObject jObj) {
+        PowerAttribute powerAttribute = null;
+
+        JsonObject acqJObj = jObj.getJsonObject("powerAttribute");
+
+        if (acqJObj != null) {                      
+    		LOG.info(  "EmanHTTPBinding.getACQuality: acqJObj " + acqJObj.toString());
+            powerAttribute = new PowerAttributeBuilder()
+                .setAcConfiguration(AcConfiguration.valueOf(acqJObj.getString("acConfiguration")))
+                .setAvgVoltage((acqJObj.getJsonNumber("avgVoltage")).bigIntegerValue())
+                .setAvgCurrent((acqJObj.getJsonNumber("avgCurrent")).bigIntegerValue())
+                .setThdCurrent((acqJObj.getJsonNumber("thdCurrent")).bigIntegerValue())
+                .setFrequency((acqJObj.getJsonNumber("frequency")).bigIntegerValue())
+                .setUnitMultiplier((acqJObj.getJsonNumber("unitMultiplier")).longValue())
+                .setAccuracy((acqJObj.getJsonNumber("accuracy")).longValue())
+                .setTotalActivePower((acqJObj.getJsonNumber("totalActivePower")).bigIntegerValue())
+                .setTotalReactivePower((acqJObj.getJsonNumber("totalReactivePower")).bigIntegerValue())
+                .setTotalApparentPower((acqJObj.getJsonNumber("totalApparentPower")).bigIntegerValue())
+                .setTotalPowerFactor((acqJObj.getJsonNumber("totalPowerFactor")).bigIntegerValue())
+                .build();
+		}
+        else {
+    		LOG.info(  "EmanHTTPBinding.getACQuality: acqJObj == null");
+        }
+		return (powerAttribute);
+    }
+    
+    /*
+    *   parse Json and write to corresponding java object
+    */
+    private Nameplate getNameplate(JsonObject eoDeviceJObj) {
+        Nameplate nameplate = null;
+        NominalPower nominalPower = null;
+    
+        JsonObject nameplateJObj = eoDeviceJObj.getJsonObject("nameplate");
+        if (nameplateJObj == null) {
+		    LOG.info(  "EmanHTTPBinding: getNameplate: nameplateJObj == null ");
+            return (nameplate);
+        }
+         
+         JsonObject nominalPowerJObj = nameplateJObj.getJsonObject("nominalPower");
+         nominalPower = new NominalPowerBuilder()
+            .setMultiplier(nominalPowerJObj.getInt("multiplier"))
+            .setCaliber(Caliber.valueOf(nominalPowerJObj.getString("caliber")))
+            .setAccuracy((nominalPowerJObj.getJsonNumber("accuracy")).longValue())
+            .setValue((nominalPowerJObj.getJsonNumber("value")).longValue())
+            .setUnits(nominalPowerJObj.getString("units"))
+            .setPowerAttribute(getACQuality(nominalPowerJObj))
+        .build();
+       
+         // create top-level object and add an array object. As we read data, add to array
+        if (nameplate == null) {
+             nameplate = new NameplateBuilder()
+                .setNominalPower(nominalPower)
+                .setDetails(nameplateJObj.getString("details"))
+                .build();
+        }
+        return (nameplate);
+    }
+    
+    /*
+    *   parse Json and write to corresponding java object
+    */
+    private Power getPower(JsonObject jObj) {
         Power power = null;
     
-        JsonObject pwrJObj = eoDeviceJObj.getJsonObject("power");
+        JsonObject pwrJObj = jObj.getJsonObject("power");
                         
 		LOG.info(  "EmanHTTPBinding.getPower: pwrJObj " + pwrJObj.toString());
 
-        try {
+        if (pwrJObj != null) {
             power = new PowerBuilder()
-            .setMultiplier(pwrJObj.getInt("multiplier"))
-    //		            .setCaliber(valueJObj.getString("caliber"))
-            .setAccuracy((pwrJObj.getJsonNumber("accuracy")).longValue())
-            .setValue((pwrJObj.getJsonNumber("value")).longValue())
-            .setUnits(pwrJObj.getString("units"))
-            .build();
-
-		} catch (Exception ex) {
-			LOG.info(  "EmanHTTPBinding.getEoDeviceEntry: catch Error: " + ex.getMessage(), ex);
-		}        
+                .setMultiplier(pwrJObj.getInt("multiplier"))
+                .setCaliber(Caliber.valueOf(pwrJObj.getString("caliber")))
+                .setAccuracy((pwrJObj.getJsonNumber("accuracy")).longValue())
+                .setValue((pwrJObj.getJsonNumber("value")).longValue())
+                .setUnits(pwrJObj.getString("units"))
+                .setPowerAttribute(getACQuality(pwrJObj))
+                .build();
+		} 
         return (power);
     }
+         
+    /*
+    *   parse Json and write to corresponding java object
+    */
+    private Energy getEnergy(JsonObject eoDeviceJObj) {
+        Energy energy = null;
     
-    // parse a JSON EoDevice object to populate a Java Demand object
+        JsonObject energyJObj = eoDeviceJObj.getJsonObject("energy");
+                        
+		LOG.info(  "EmanHTTPBinding.getEnergy: energyJObj " + energyJObj.toString());
+
+        try {
+            energy = new EnergyBuilder()
+                .setMultiplier(energyJObj.getInt("multiplier"))
+                .setCaliber(Caliber.valueOf(energyJObj.getString("caliber")))
+                .setAccuracy((energyJObj.getJsonNumber("accuracy")).longValue())
+                .setStartTime((energyJObj.getJsonNumber("startTime")).longValue())
+                .setUnits(energyJObj.getString("units"))
+                .setProvided((energyJObj.getJsonNumber("provided")).longValue())
+                .setUsed((energyJObj.getJsonNumber("used")).longValue())
+                .setProduced((energyJObj.getJsonNumber("produced")).longValue())
+                .setStored((energyJObj.getJsonNumber("stored")).longValue())
+                .build();
+		} catch (Exception ex) {
+			LOG.info(  "EmanHTTPBinding.getEnergy: catch Error: " + ex.getMessage(), ex);
+		}        
+        return (energy);
+    }
+ 
+    /*
+    *   parse Json and write to corresponding java object
+    */
     private Demand getDemand(JsonObject eoDeviceJObj) {
         Demand demand = null;
-    
+        TimedMeasurements timedMeasurements = null;
+        TimedMeasurement timedMeasurement = null;
+        
         JsonObject demandJObj = eoDeviceJObj.getJsonObject("demand");
 
 		LOG.info(  "EmanHTTPBinding.getDemand: demandJObj " + demandJObj.toString());
@@ -123,75 +230,74 @@ public class EmanHTTPBinding {
         try {                        
             JsonObject ilJobj = demandJObj.getJsonObject("intervalLength");
             IntervalLength intervalLength = new IntervalLengthBuilder()
-            .setValue((ilJobj.getJsonNumber("value")).bigIntegerValue())
-    //        .setUnits(0)
-            .build();
+                .setValue((ilJobj.getJsonNumber("value")).bigIntegerValue())
+                .setUnits(Units.valueOf(ilJobj.getString("units")))
+                .build();
                         
             JsonObject iwJobj = demandJObj.getJsonObject("intervalWindow");
             IntervalWindow intervalWindow = new IntervalWindowBuilder()
-            .setValue((iwJobj.getJsonNumber("value")).bigIntegerValue())
-    //			    .setUnits()
-            .build();
+                .setValue((iwJobj.getJsonNumber("value")).bigIntegerValue())
+                .setUnits(Units.valueOf(ilJobj.getString("units")))
+                .build();
                         
             JsonObject sRobj = demandJObj.getJsonObject("sampleRate");
             SampleRate sampleRate = new SampleRateBuilder()
-            .setValue((sRobj.getJsonNumber("value")).bigIntegerValue())
-    //			    .setUnits()
-            .build();
+                .setValue((sRobj.getJsonNumber("value")).bigIntegerValue())
+                .setUnits(Units.valueOf(ilJobj.getString("units")))
+                .build();
+        
+             // create top-level object and add an array object. As we read data, add to array
+            if (timedMeasurements == null) {
+                 timedMeasurements = new TimedMeasurementsBuilder()
+                .setTimedMeasurement(timedMeasurementList)
+                .build();
+            }
 
-            JsonArray measurementJArr = demandJObj.getJsonArray("measurements");
-            for (int j=0; j< measurementJArr.size(); j++ ) {
-                JsonObject measurementJObj = measurementJArr.getJsonObject(j);
-                JsonObject TMOJObj = measurementJObj.getJsonObject("timedMeasurement");
+            JsonObject tmJObj = demandJObj.getJsonObject("timedMeasurements");
+            JsonArray measurementJArr = tmJObj.getJsonArray("timedMeasurement");
+            for (int i=0; i< measurementJArr.size(); i++ ) {
+                JsonObject TMOJObj = measurementJArr.getJsonObject(i);
                 JsonObject valueJObj = TMOJObj.getJsonObject("value");
                 JsonObject maxJObj = TMOJObj.getJsonObject("maximum");
-    //		            LOG.info(  "EmanHTTPBinding: getEoDeviceEntry: measurementJObj.name " + measurementJObj.getString("name"));
-    //		            LOG.info(  "EmanHTTPBinding: getEoDeviceEntry: TMOJObj " + TMOJObj.toString());
-    //		            LOG.info(  "EmanHTTPBinding: getEoDeviceEntry: valueJObj " + valueJObj.toString());
-    //		            LOG.info(  "EmanHTTPBinding: getEoDeviceEntry: maxJObj " + maxJObj.toString());
-                                
+                            
                 Value val = new ValueBuilder()
-                .setMultiplier(valueJObj.getInt("multiplier"))
-    //		            .setCaliber(valueJObj.getString("caliber"))
-                .setAccuracy((valueJObj.getJsonNumber("accuracy")).longValue())
-                .setValue((valueJObj.getJsonNumber("value")).longValue())
-                .setUnits(valueJObj.getString("units"))
-                .build();
-            
+                    .setMultiplier(valueJObj.getInt("multiplier"))
+                    .setCaliber(Caliber.valueOf(valueJObj.getString("caliber")))
+                    .setAccuracy((valueJObj.getJsonNumber("accuracy")).longValue())
+                    .setValue((valueJObj.getJsonNumber("value")).longValue())
+                    .setUnits(valueJObj.getString("units"))
+                    .build();
+        
                 Maximum max = new MaximumBuilder()
-                .setMultiplier(maxJObj.getInt("multiplier"))
-    //		            .setCaliber(maxJObj.getString("caliber"))
-                .setAccuracy((maxJObj.getJsonNumber("accuracy")).longValue())
-                .setValue((maxJObj.getJsonNumber("value")).longValue())
-                .setUnits(maxJObj.getString("units"))
-                .build();
-            
-                TimedMeasurement tm = new TimedMeasurementBuilder()
-                .setStartTime((TMOJObj.getJsonNumber("startTime")).longValue())
-                .setValue(val)
-                .setMaximum(max)
-                .build();
-            
-                Measurements m = new MeasurementsBuilder()
-                .setName(measurementJObj.getString("name"))
-                .setTimedMeasurement(tm)
-                .build();
-            
-                measurementsList.add(m);
+                    .setMultiplier(maxJObj.getInt("multiplier"))
+                    .setCaliber(Caliber.valueOf(maxJObj.getString("caliber")))
+                    .setAccuracy((maxJObj.getJsonNumber("accuracy")).longValue())
+                    .setValue((maxJObj.getJsonNumber("value")).longValue())
+                    .setUnits(maxJObj.getString("units"))
+                    .build();
+                
+                TimedMeasurement m = new TimedMeasurementBuilder()
+                    .setName(TMOJObj.getString("name"))
+                    .setStartTime((TMOJObj.getJsonNumber("startTime")).longValue())
+                    .setValue(val)
+                    .setMaximum(max)
+                    .build();
+        
+                timedMeasurementList.add(m);
             }
         
             demand = new DemandBuilder()
-            .setMultiplier(demandJObj.getInt("multiplier"))
-    //                .setCaliber(demandJObj.getString("caliber"))
-            .setAccuracy((demandJObj.getJsonNumber("accuracy")).longValue())
-            .setIntervalLength(intervalLength)
-            .setIntervals((demandJObj.getJsonNumber("intervals")).bigIntegerValue())
-    //                .setIntervalMode(demandJObj.getString("intervalMode"))
-            .setIntervalWindow(intervalWindow)
-            .setSampleRate(sampleRate)
-    //                .setStatus(demandJObj.getString("status"))
-            .setMeasurements(measurementsList)
-            .build();
+                .setMultiplier(demandJObj.getInt("multiplier"))
+                .setCaliber(Caliber.valueOf(demandJObj.getString("caliber")))
+                .setAccuracy((demandJObj.getJsonNumber("accuracy")).longValue())
+                .setIntervalLength(intervalLength)
+                .setIntervals((demandJObj.getJsonNumber("intervals")).bigIntegerValue())
+                .setIntervalMode(IntervalMode.valueOf(demandJObj.getString("intervalMode")))
+                .setIntervalWindow(intervalWindow)
+                .setSampleRate(sampleRate)
+                .setStatus(Status.valueOf(demandJObj.getString("status")))
+                .setTimedMeasurements(timedMeasurements)
+                .build();
 
 		} catch (Exception ex) {
 			LOG.info(  "EmanHTTPBinding.getEoDeviceEntry: catch Error: " + ex.getMessage(), ex);
@@ -199,113 +305,193 @@ public class EmanHTTPBinding {
 		
 		return (demand);
     }
-    
-    // parse a JSON EoDevice object to populate a Java PowerControls object
-    private List<PowerControls> getPowerControls(JsonObject eoDeviceJObj) {
-        List<PowerControls> pwrControlsList = new ArrayList<>();
-        List<PowerStates> pwrStatesList = new ArrayList<>();
+
+    /*
+    *   parse Json and write to corresponding java object
+    */
+    private PowerControls getPowerControls(JsonObject eoDeviceJObj) {
+        PowerControls powerControls = null;
+        PowerStates powerStates = null;
+        
+        List<PowerState> powerStateList = null;
+        
+        // create top-level object and add an array object. As we read data, add to array
+        if (powerControls == null) {
+             powerControls = new PowerControlsBuilder()
+            .setPowerControl(powerControlList)
+            .build();
+        }
 
         try {
-            JsonArray pwrCntrlJArr = eoDeviceJObj.getJsonArray("powerControls");
+            JsonObject pwrCntrlsJObj = eoDeviceJObj.getJsonObject("powerControls");
+            JsonArray pwrCntrlJArr = pwrCntrlsJObj.getJsonArray("powerControl");
         
             LOG.info(  "EmanHTTPBinding.getPowerControls: pwrCntrlJArr " + pwrCntrlJArr.toString());
 
-            for(int i = 0; i < pwrCntrlJArr.size(); i++) {
-                JsonObject pwrContrlsEntryJObj = pwrCntrlJArr.getJsonObject(i);
-                JsonArray pwrStatesJArr = pwrContrlsEntryJObj.getJsonArray("powerStates");
+            for (int i = 0; i < pwrCntrlJArr.size(); i++) {
+                 // create top-level object and add an array object. As we read data, add to array
+                powerStateList = new ArrayList<>();
+                powerStates = new PowerStatesBuilder()
+                    .setPowerState(powerStateList)
+                    .build();
+ 
+                JsonObject pwrCntrlJObj = pwrCntrlJArr.getJsonObject(i);
+                JsonObject pwrStatesJObj = pwrCntrlJObj.getJsonObject("powerStates");
+                JsonArray pwrStateJArr = pwrStatesJObj.getJsonArray("powerState");
             
-                for(int j = 0; j < pwrStatesJArr.size(); j++) {
-                    JsonObject pwrStateEntrylJObj = pwrStatesJArr.getJsonObject(j);
-                    JsonObject maxPwrlJObj = pwrStateEntrylJObj.getJsonObject("maximumPower");
+                for(int j = 0; j < pwrStateJArr.size(); j++) {
+                    JsonObject pwrStateJObj = pwrStateJArr.getJsonObject(j);
+                    JsonObject maxPwrJObj = pwrStateJObj.getJsonObject("maximumPower");
                 
                     MaximumPower max = new MaximumPowerBuilder()
-                    .setMultiplier(maxPwrlJObj.getInt("multiplier"))
-        //		            .setCaliber(maxPwrlJObj.getString("caliber"))
-                    .setAccuracy((maxPwrlJObj.getJsonNumber("accuracy")).longValue())
-                    .setValue((maxPwrlJObj.getJsonNumber("value")).longValue())
-                    .setUnits(maxPwrlJObj.getString("units"))
-                    .build();
+                        .setMultiplier(maxPwrJObj.getInt("multiplier"))
+                        .setCaliber(Caliber.valueOf(maxPwrJObj.getString("caliber")))
+                        .setAccuracy((maxPwrJObj.getJsonNumber("accuracy")).longValue())
+                        .setValue((maxPwrJObj.getJsonNumber("value")).longValue())
+                        .setUnits(maxPwrJObj.getString("units"))
+                        .build();
                 
                     PowerState pwrState = new PowerStateBuilder()
-                    .setPowerStateIdentifier((pwrStateEntrylJObj.getJsonNumber("powerStateIdentifier")).longValue())
-                    .setName(pwrStateEntrylJObj.getString("name"))
-                    .setCardinality((pwrStateEntrylJObj.getJsonNumber("cardinality")).longValue())
-                    .setMaximumPower(max)
-//                    .setTotalImeInState(pwrStateEntrylJObj.getString("totalTimeInState"))
-                    .setEntryCount((pwrStateEntrylJObj.getJsonNumber("entryCount")).bigIntegerValue())
-                    .build();
-                
-                    PowerStates pwrStateEntry = new PowerStatesBuilder()
-                    .setName(pwrStateEntrylJObj.getString("name"))
-                    .setPowerState(pwrState)
-                    .build();
+                        .setId(pwrStateJObj.getInt("id"))
+                        .setPowerStateIdentifier((pwrStateJObj.getJsonNumber("powerStateIdentifier")).longValue())
+                        .setName(pwrStateJObj.getString("name"))
+                        .setCardinality((pwrStateJObj.getJsonNumber("cardinality")).longValue())
+                        .setMaximumPower(max)
+                        .setTotalTimeInState(new Timeticks ((pwrStateJObj.getJsonNumber("totalTimeInState")).longValue()))
+                        .setEntryCount((pwrStateJObj.getJsonNumber("entryCount")).bigIntegerValue())
+                        .build();
                  
-                     pwrStatesList.add(pwrStateEntry);
+                     powerStateList.add(pwrState);
                 }
 
-                JsonObject pwrContrlJObj = pwrContrlsEntryJObj.getJsonObject("powerControl");
                 PowerControl powerCntrl = new PowerControlBuilder()
-                .setPowerStateIdentifier( (pwrContrlJObj.getJsonNumber("powerStateIdentifier")).longValue() )
-                .setName(pwrContrlJObj.getString("name"))
-                .setPowerStates(pwrStatesList)
-                .setOperState( (pwrContrlJObj.getJsonNumber("operState")).longValue() )
-                .setAdminState( (pwrContrlJObj.getJsonNumber("adminState")).longValue() )
-                .setReason(pwrContrlJObj.getString("reason"))
-//                .setConfigurationTime(pwrContrlEntryJObj.getInt("configuredTime"))
-                .build();
-
-                PowerControls powerCntrlEntry = new PowerControlsBuilder()
-                .setName(pwrContrlJObj.getString("name"))
-                .setPowerControl(powerCntrl)
-                .build();
+                    .setId(pwrCntrlJObj.getInt("id"))
+                    .setPowerStateIdentifier( (pwrCntrlJObj.getJsonNumber("powerStateIdentifier")).longValue() )
+                    .setName(pwrCntrlJObj.getString("name"))
+                    .setPowerStates(powerStates)
+                    .setOperState( (pwrCntrlJObj.getJsonNumber("operState")).longValue() )
+                    .setAdminState( (pwrCntrlJObj.getJsonNumber("adminState")).longValue() )
+                    .setReason(pwrCntrlJObj.getString("reason"))
+                    .setConfiguredTime(new Timestamp ((pwrCntrlJObj.getJsonNumber("configuredTime")).longValue()))
+                    .build();
            
-                pwrControlsList.add(powerCntrlEntry);
+                powerControlList.add(powerCntrl);
             }
 		} catch (Exception ex) {
 			LOG.info(  "EmanHTTPBinding.getEoDeviceEntry: catch Error: " + ex.getMessage(), ex);
 		} 
-		       
-        return (pwrControlsList);
+        return (powerControls);
     }
-    
-    /* Build:
-    *   edDevices
-    *       EoDeviceEntry[]
-    *           EoDevice - container
-    *               EoDeviceObject - group
-    *                   energyObject - group
-    *                       power - container
-    *                           PowerMeasurementObject - group
-    *                       demand - container
-    *                           DemandMeasurementObject - group
-    *                               MeasurementObject - group
-    *                               intervalLength - container
-    *                                   TimeIntervalObject - group
-    *                               intervalWindow - container
-    *                                   TimeIntervalObject - group
-    *                               samplerate - container
-    *                                   TimeIntervalObject - group
-    *                               measurements[]
-    *                                   TimedMeasurementObject - container
-    *                                       TimedMeasurementObject - group
-    *                                           value - container
-    *                                               PowerMeasurementObject - group
-    *                                           Maximum - container
-    *                                                PowerMeasurementObject - group
-    *                       powerControls - container
-    *                           powerControl - container
-    *                               PowerStateSetObject - group
-    * 
-    * Note: containers have Builder classes, groups (object) do not. Lists have Key classes                  
+
+    /*
+    *   parse Json and write to corresponding java object
+    */
+    private EnergyObject getEnergyObject(JsonObject eoJObj) {
+        EnergyObject energyObject = null;
+
+        try {
+    		energyObject = new EnergyObjectBuilder()
+                .setIndex((eoJObj.getJsonNumber("index")).longValue())
+                .setName(eoJObj.getString("name"))
+                .setIdentifier((eoJObj.getJsonNumber("identifier")).longValue())
+                .setAlternateKey(eoJObj.getString("alternateKey"))
+                .setDomainName(eoJObj.getString("domainName"))
+                .setRole(eoJObj.getString("role"))
+                .setKeywords(eoJObj.getString("keyWords"))
+                .setImportance((eoJObj.getJsonNumber("importance")).longValue())
+                .setRelationships(getRelationships(eoJObj))
+                .setNameplate(getNameplate(eoJObj))
+                .setPower(getPower(eoJObj))
+                .setEnergy(getEnergy(eoJObj))
+                .setDemand(getDemand(eoJObj))
+                .setPowerControls(getPowerControls(eoJObj))
+                .build();
+		} catch (Exception ex) {
+			LOG.info(  "EmanHTTPBinding.getEnergyObject: catch Error: " + ex.getMessage(), ex);
+		} 
+        return (energyObject);
+    }
+
+    /*
+    *   parse Json and write to corresponding java object
+    */
+    private PowerInterfaces getPowerInterfaces(JsonObject eoDeviceJObj) {
+        PowerInterfaces powerInterfaces = null;
+        PowerInterface powerInterface = null;
+
+        try {        
+             // create top-level object and add an array object. As we read data, add to array
+            if (powerInterfaces == null) {
+                 powerInterfaces = new PowerInterfacesBuilder()
+                .setPowerInterface(powerInterfaceList)
+                .build();
+            }
+
+			JsonObject pisJObj = eoDeviceJObj.getJsonObject("powerInterfaces");
+			JsonArray pisJArr = pisJObj.getJsonArray("powerInterface");
+			
+			for (int i=0; i< pisJArr.size(); i++ ) {
+			    JsonObject piJObj = pisJArr.getJsonObject(i);
+                JsonObject eoJObj = piJObj.getJsonObject("energyObject");
+
+			    powerInterface = new PowerInterfaceBuilder()
+                    .setId(eoDeviceJObj.getInt("id"))
+                    .setEnergyObject(getEnergyObject(eoJObj))
+                    .build();
+                powerInterfaceList.add(powerInterface);
+			}
+		} catch (Exception ex) {
+			LOG.info(  "EmanHTTPBinding.getPowerInterfaces: catch Error: " + ex.getMessage(), ex);
+		} 
+
+        return (powerInterfaces);
+    }
+
+    /*
+    *   parse Json and write to corresponding java object
+    */
+    private Components getComponents(JsonObject eoDeviceJObj) {
+        Components components = null;
+        Component component = null;
+
+        try {        
+             // create top-level object and add an array object. As we read data, add to array
+            if (components == null) {
+                 components = new ComponentsBuilder()
+                .setComponent(componentList)
+                .build();
+            }
+
+			JsonObject JObj = eoDeviceJObj.getJsonObject("components");
+			JsonArray JArr = JObj.getJsonArray("component");
+			
+			for (int i=0; i< JArr.size(); i++ ) {
+			    JsonObject piJObj = JArr.getJsonObject(i);
+                JsonObject eoJObj = piJObj.getJsonObject("energyObject");
+
+			    component = new ComponentBuilder()
+                    .setId(eoDeviceJObj.getInt("id"))
+                    .setEnergyObject(getEnergyObject(eoJObj))
+                    .build();
+                componentList.add(component);
+			}
+		} catch (Exception ex) {
+			LOG.info(  "EmanHTTPBinding.getComponents: catch Error: " + ex.getMessage(), ex);
+		} 
+
+        return (components);
+    }
+
+    /*
+    *   parse Json and write to corresponding java object
     */
     public EoDevice getEoDevice(String deviceIP, int key) {
 		String targetUrl = "http://"+deviceIP;
 		JsonReader rdr = null;
 		String str = null;	
-		
 		EoDevice eoDevice = null;	
 
-		LOG.info(  "EmanHTTPBinding.getEoDeviceEntry: targetUrl " + targetUrl);
+		LOG.info(  "EmanHTTPBinding.getEoDevice: targetUrl " + targetUrl);
 
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 
@@ -318,50 +504,39 @@ public class EmanHTTPBinding {
 			InputStream in = responseEntity.getContent();			
 			java.util.Scanner s = new java.util.Scanner(in).useDelimiter("\\A");
             str = s.hasNext() ? s.next() : "";
-		    LOG.info(  "EmanHTTPBinding: getEoDeviceEntry: str " + str);
+//		    LOG.info(  "EmanHTTPBinding: getEoDevice: str " + str);
 
 			rdr = Json.createReader(new StringReader(str));
 			JsonObject obj = rdr.readObject();			
 			JsonObject eoDevicesObj = obj.getJsonObject("eoDevices");
-			JsonArray eoEntries = eoDevicesObj.getJsonArray("eoDeviceEntries");
-		    LOG.info(  "EmanHTTPBinding: getEoDeviceEntry: eoDevicesObj " + eoDevicesObj.toString());
-		    LOG.info(  "EmanHTTPBinding: getEoDeviceEntry: eoDeviceEntries " + eoEntries.toString());
+		    LOG.info(  "EmanHTTPBinding: getEoDevice: eoDevicesObj " + eoDevicesObj.toString());
+			JsonArray eoDeviceArr = eoDevicesObj.getJsonArray("eoDevice");
+		    LOG.info(  "EmanHTTPBinding: getEoDevice: eoDevice " + eoDeviceArr.toString());
+		    LOG.info(  "EmanHTTPBinding: getEoDevice: eoDevice.size() " + eoDeviceArr.size());
 			
-			for (int i=0; i< eoEntries.size(); i++ ) {
-			    JsonObject eoDeviceEntryJObj = eoEntries.getJsonObject(i);
-			    String entryName = eoDeviceEntryJObj.getString("name");
-			    JsonObject eoDeviceJObj = eoDeviceEntryJObj.getJsonObject("EoDevice");
-			    
-			    Demand demand = getDemand(eoDeviceJObj);
+			for (int i=0; i< eoDeviceArr.size(); i++ ) {
+			    JsonObject eoDeviceJObj = eoDeviceArr.getJsonObject(i);
+                JsonObject eoJObj = eoDeviceJObj.getJsonObject("energyObject");
 
 			    eoDevice = new EoDeviceBuilder()
-// how to do emums?                .setEocategory(eoDeviceJObj.getString("eoCategory"))
-// hw to set long??                .setIndex(eoDeviceJObj.getInt("index"))
-                .setName(eoDeviceJObj.getString("name"))
-                .setIdentifier((eoDeviceJObj.getJsonNumber("identifier")).longValue())
-                .setAlternateKey(eoDeviceJObj.getString("alternateKey"))
-                .setDomainName(eoDeviceJObj.getString("domainName"))
-                .setRole(eoDeviceJObj.getString("role"))
-                .setKeywords(eoDeviceJObj.getString("keyWords"))
-                .setImportance((eoDeviceJObj.getJsonNumber("importance")).longValue())
-//                .setPower(getPower(eoDeviceJObj))
-                .setDemand(demand)
-//                .setPowerControls(getPowerControls(eoDeviceJObj))
-			    .build();
+                    .setId(eoDeviceJObj.getInt("id"))
+                    .setEocategory(Eocategory.valueOf(eoDeviceJObj.getString("eocategory")))
+                    .setEnergyObject(getEnergyObject(eoJObj))
+                    .setPowerInterfaces(getPowerInterfaces(eoDeviceJObj))
+                    .setComponents(getComponents(eoDeviceJObj))
+                    .build();
 			}
-
 		} catch (Exception ex) {
-			LOG.info(  "EmanHTTPBinding.getEoDeviceEntry: catch Error: " + ex.getMessage(), ex);
+			LOG.info(  "EmanHTTPBinding.getEoDevice: catch Error: " + ex.getMessage(), ex);
 		} finally {
 			try {
 			    rdr.close();
 				httpClient.close();
 			} catch (IOException ex) {
-				LOG.info(  "EmanHTTPBinding.getEoDeviceEntry: finally Error: " + ex.getMessage(), ex);
+				LOG.info(  "EmanHTTPBinding.getEoDevice: finally Error: " + ex.getMessage(), ex);
 			}
 		}
             
         return eoDevice;
 	}
-	
 }

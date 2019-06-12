@@ -1,138 +1,447 @@
-{ "eoDevices" : { "eoDeviceEntries" : [   
-    { 
-        "name" : "eoDeviceEntry1",
-        "EoDevice" : {
-            "eoCategory" : "consumer",
+{ "eoDevices" : { 
+    "eoDevice" : [ { 
+        "id" : 1,
+        "eocategory" : "CONSUMER",
+        "energyObject" : {
             "index" : 0,
-            "name" : "Doug",
+            "name" : "EO device",
             "identifier" : 0,
             "alternateKey" : "none",
             "domainName" : "domain",
             "role" : "consume",
             "keyWords" : "none",
             "importance" : 1,
+            "relationships" : {
+                "relationship" : [ {
+                        "relationshipType" : "POWEREDBY",
+                        "relationshipObject" : 0
+                } ]
+            },
+            "nameplate" : {
+                "nominalPower" : {
+                    "multiplier" : 0,
+                    "caliber" : "ACTUAL",
+                    "accuracy" : 100,
+                    "value" : 50,
+                    "units" : "W"
+                },
+                "details" : "detes"
+            },
             "power" : {
                 "multiplier" : 0,
-                "caliber" : "actual",
+                "caliber" : "ACTUAL",
                 "accuracy" : 100,
-                "value" : 50,
-                "units" : "W"
+                "value" : 500,
+                "units" : "W",
+                "powerAttribute" : {
+                    "acConfiguration" : "SNGL",
+                    "avgVoltage" : 0,
+                    "avgCurrent" : 0,
+                    "thdCurrent" : 0,
+                    "frequency" : 0,
+                    "unitMultiplier" : 0,
+                    "accuracy" : 0,
+                    "totalActivePower" : 0,
+                    "totalReactivePower" : 0,
+                    "totalApparentPower" : 0,
+                    "totalPowerFactor" : 0
+                }
+            },
+            "energy" : {
+                "multiplier" : 0,
+                "caliber" : "ACTUAL",
+                "accuracy" : 100,
+                "startTime" : 50,
+                "units" : "W",
+                "provided" : 0,
+                "used" : 110,
+                "produced" : 0,
+                "stored" : 0
             },
             "demand" : {
                 "multiplier" : 0,
-                "caliber" : "actual",
+                "caliber" : "ACTUAL",
                 "accuracy" : 100,
                 "intervalLength" : {
                     "value" : 1,
-                    "units" : "second"
+                    "units" : "SECOND"
                 },
                 "intervals" : 1,
-                "intervalMode" : "periodic",
+                "intervalMode" : "PERIODIC",
                 "intervalWindow" :  {
                     "value" : 1,
-                    "units" : "second"
+                    "units" : "SECOND"
                 },
                 "sampleRate" :  {
                     "value" : 1,
-                    "units" : "second"
+                    "units" : "SECOND"
                 },
-                "status" : "active",
-                "measurements" : [
-                    {
-                        "name" : "msr1",
-                        "timedMeasurement" : {
+                "status" : "ACTIVE",
+                "timedMeasurements" : {
+                    "timedMeasurement" : [
+                        {
+                            "id" : 0,
+                            "name" : "msr1",
                             "startTime" : 1,
                             "value" : {
                                 "multiplier" : 1,
-                                "caliber" : "actual",
+                                "caliber" : "ACTUAL",
                                 "accuracy" : 100,
                                 "value" : 45,
                                 "units" : "W"
                             },
                             "maximum" : {
                                 "multiplier" : 0,
-                                "caliber" : "actual",
+                                "caliber" : "ACTUAL",
                                 "accuracy" : 100,
                                 "value" : 50,
                                 "units" : "W"
                             }
-                        }
-                    },
-                    {
-                        "name" : "msr2",
-                        "timedMeasurement" : {
+                        },
+                        {
+                            "id" : 1,
+                            "name" : "msr2",
                             "startTime" : 1,
                             "value" : {
                                 "multiplier" : 1,
-                                "caliber" : "actual",
+                                "caliber" : "ACTUAL",
                                 "accuracy" : 100,
-                                "value" : 40,
+                                "value" : 45,
                                 "units" : "W"
                             },
                             "maximum" : {
                                 "multiplier" : 0,
-                                "caliber" : "actual",
+                                "caliber" : "ACTUAL",
                                 "accuracy" : 100,
                                 "value" : 50,
                                 "units" : "W"
                             }
                         }
-                    },
-                    {
-                        "name" : "msr3",
-                        "timedMeasurement" : {
-                            "startTime" : 1,
-                            "value" : {
-                                "multiplier" : 1,
-                                "caliber" : "actual",
-                                "accuracy" : 100,
-                                "value" : 42,
-                                "units" : "W"
-                            },
-                            "maximum" : {
-                                "multiplier" : 0,
-                                "caliber" : "actual",
-                                "accuracy" : 100,
-                                "value" : 50,
-                                "units" : "W"
-                            }
-                        }
-                    }
-                ]
+                    ]
+                }
             },
-            "powerControls" : [
-                {
-                    "name" : "pc1",
-                    "powerControl" : {
+            "powerControls" : {
+                "powerControl" : [
+                    {
+                        "id" : 0,
                         "powerStateIdentifier" : 3,
                         "name" : "IANA named power state",
-                        "powerStates" : [
-                            {
-                                "name" : "ps1",
-                                "powerState" : {
+                        "powerStates" : {
+                            "powerState" : [ 
+                                {
+                                    "id" : 0,
                                     "powerStateIdentifier" : 1,
                                     "name" : "IANA named power state",
                                     "cardinality" : 1,
                                     "maximumPower" : {
                                         "multiplier" : 0,
-                                        "caliber" : "actual",
+                                        "caliber" : "ACTUAL",
                                         "accuracy" : 100,
-                                        "value" : "50",
+                                        "value" : 50,
                                         "units" : "W"
                                     },
                                     "totalTimeInState" : 1,
                                     "entryCount" : 1
                                 }
-                            }
-                        ],
+                            ] 
+                        },
                         "operState" : 1,
                         "adminState" : 1,
                         "reason" : "changed",
                         "configuredTime" : 1                       
+                    } 
+                ]
+            }
+        },
+        "powerInterfaces" : {
+            "powerInterface" : [
+                {
+                    "id" : 0,
+                    "energyObject" : {
+                        "index" : 0,
+                        "name" : "Earl",
+                        "identifier" : 0,
+                        "alternateKey" : "none",
+                        "domainName" : "domain",
+                        "role" : "consume",
+                        "keyWords" : "none",
+                        "importance" : 1,
+                        "relationships" : {
+                            "relationship" : [ {
+                                    "relationshipType" : "POWEREDBY",
+                                    "relationshipObject" : 0
+                            } ]
+                        },
+                        "nameplate" : {
+                            "nominalPower" : {
+                                "multiplier" : 0,
+                                "caliber" : "ACTUAL",
+                                "accuracy" : 100,
+                                "value" : 50,
+                                "units" : "W"
+                            },
+                            "details" : "detes"
+                        },
+                        "power" : {
+                            "multiplier" : 0,
+                            "caliber" : "ACTUAL",
+                            "accuracy" : 100,
+                            "value" : 500,
+                            "units" : "W"
+                        },
+                        "energy" : {
+                            "multiplier" : 0,
+                            "caliber" : "ACTUAL",
+                            "accuracy" : 100,
+                            "startTime" : 50,
+                            "units" : "W",
+                            "provided" : 0,
+                            "used" : 110,
+                            "produced" : 0,
+                            "stored" : 0
+                        },
+                        "demand" : {
+                            "multiplier" : 0,
+                            "caliber" : "ACTUAL",
+                            "accuracy" : 100,
+                            "intervalLength" : {
+                                "value" : 1,
+                                "units" : "SECOND"
+                            },
+                            "intervals" : 1,
+                            "intervalMode" : "PERIODIC",
+                            "intervalWindow" :  {
+                                "value" : 1,
+                                "units" : "SECOND"
+                            },
+                            "sampleRate" :  {
+                                "value" : 1,
+                                "units" : "SECOND"
+                            },
+                            "status" : "ACTIVE",
+                            "timedMeasurements" : {
+                                "timedMeasurement" : [
+                                    {
+                                        "id" : 0,
+                                        "name" : "msr1",
+                                        "startTime" : 1,
+                                        "value" : {
+                                            "multiplier" : 1,
+                                            "caliber" : "ACTUAL",
+                                            "accuracy" : 100,
+                                            "value" : 45,
+                                            "units" : "W"
+                                        },
+                                        "maximum" : {
+                                            "multiplier" : 0,
+                                            "caliber" : "ACTUAL",
+                                            "accuracy" : 100,
+                                            "value" : 50,
+                                            "units" : "W"
+                                        }
+                                    },
+                                    {
+                                        "id" : 1,
+                                        "name" : "msr2",
+                                        "startTime" : 1,
+                                        "value" : {
+                                            "multiplier" : 1,
+                                            "caliber" : "ACTUAL",
+                                            "accuracy" : 100,
+                                            "value" : 45,
+                                            "units" : "W"
+                                        },
+                                        "maximum" : {
+                                            "multiplier" : 0,
+                                            "caliber" : "ACTUAL",
+                                            "accuracy" : 100,
+                                            "value" : 50,
+                                            "units" : "W"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "powerControls" : {
+                            "powerControl" : [
+                                {
+                                    "id" : 0,
+                                    "powerStateIdentifier" : 3,
+                                    "name" : "IANA named power state",
+                                    "powerStates" : {
+                                        "powerState" : [ 
+                                            {
+                                                "id" : 0,
+                                                "powerStateIdentifier" : 1,
+                                                "name" : "IANA named power state",
+                                                "cardinality" : 1,
+                                                "maximumPower" : {
+                                                    "multiplier" : 0,
+                                                    "caliber" : "ACTUAL",
+                                                    "accuracy" : 100,
+                                                    "value" : 50,
+                                                    "units" : "W"
+                                                },
+                                                "totalTimeInState" : 1,
+                                                "entryCount" : 1
+                                            }
+                                        ] 
+                                    },
+                                    "operState" : 1,
+                                    "adminState" : 1,
+                                    "reason" : "changed",
+                                    "configuredTime" : 1                       
+                                } 
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "components" : {
+            "component" : [
+                {
+                    "id" : 10,
+                    "energyObject" : {
+                        "index" : 0,
+                        "name" : "Ferdinand",
+                        "identifier" : 0,
+                        "alternateKey" : "none",
+                        "domainName" : "domain",
+                        "role" : "consume",
+                        "keyWords" : "none",
+                        "importance" : 1,
+                        "relationships" : {
+                            "relationship" : [ {
+                                    "relationshipType" : "POWEREDBY",
+                                    "relationshipObject" : 0
+                            } ]
+                        },
+                        "nameplate" : {
+                            "nominalPower" : {
+                                "multiplier" : 0,
+                                "caliber" : "ACTUAL",
+                                "accuracy" : 100,
+                                "value" : 50,
+                                "units" : "W"
+                            },
+                            "details" : "detes"
+                        },
+                        "power" : {
+                            "multiplier" : 0,
+                            "caliber" : "ACTUAL",
+                            "accuracy" : 100,
+                            "value" : 500,
+                            "units" : "W"
+                        },
+                        "energy" : {
+                            "multiplier" : 0,
+                            "caliber" : "ACTUAL",
+                            "accuracy" : 100,
+                            "startTime" : 50,
+                            "units" : "W",
+                            "provided" : 0,
+                            "used" : 110,
+                            "produced" : 0,
+                            "stored" : 0
+                        },
+                        "demand" : {
+                            "multiplier" : 0,
+                            "caliber" : "ACTUAL",
+                            "accuracy" : 100,
+                            "intervalLength" : {
+                                "value" : 1,
+                                "units" : "SECOND"
+                            },
+                            "intervals" : 1,
+                            "intervalMode" : "PERIODIC",
+                            "intervalWindow" :  {
+                                "value" : 1,
+                                "units" : "SECOND"
+                            },
+                            "sampleRate" :  {
+                                "value" : 1,
+                                "units" : "SECOND"
+                            },
+                            "status" : "ACTIVE",
+                            "timedMeasurements" : {
+                                "timedMeasurement" : [
+                                    {
+                                        "id" : 0,
+                                        "name" : "msr1",
+                                        "startTime" : 1,
+                                        "value" : {
+                                            "multiplier" : 1,
+                                            "caliber" : "ACTUAL",
+                                            "accuracy" : 100,
+                                            "value" : 45,
+                                            "units" : "W"
+                                        },
+                                        "maximum" : {
+                                            "multiplier" : 0,
+                                            "caliber" : "ACTUAL",
+                                            "accuracy" : 100,
+                                            "value" : 50,
+                                            "units" : "W"
+                                        }
+                                    },
+                                    {
+                                        "id" : 1,
+                                        "name" : "msr2",
+                                        "startTime" : 1,
+                                        "value" : {
+                                            "multiplier" : 1,
+                                            "caliber" : "ACTUAL",
+                                            "accuracy" : 100,
+                                            "value" : 45,
+                                            "units" : "W"
+                                        },
+                                        "maximum" : {
+                                            "multiplier" : 0,
+                                            "caliber" : "ACTUAL",
+                                            "accuracy" : 100,
+                                            "value" : 50,
+                                            "units" : "W"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "powerControls" : {
+                            "powerControl" : [
+                                {
+                                    "id" : 0,
+                                    "powerStateIdentifier" : 3,
+                                    "name" : "IANA named power state",
+                                    "powerStates" : {
+                                        "powerState" : [ 
+                                            {
+                                                "id" : 0,
+                                                "powerStateIdentifier" : 1,
+                                                "name" : "IANA named power state",
+                                                "cardinality" : 1,
+                                                "maximumPower" : {
+                                                    "multiplier" : 0,
+                                                    "caliber" : "ACTUAL",
+                                                    "accuracy" : 100,
+                                                    "value" : 50,
+                                                    "units" : "W"
+                                                },
+                                                "totalTimeInState" : 1,
+                                                "entryCount" : 1
+                                            }
+                                        ] 
+                                    },
+                                    "operState" : 1,
+                                    "adminState" : 1,
+                                    "reason" : "changed",
+                                    "configuredTime" : 1                       
+                                } 
+                            ]
+                        }
                     }
                 }
             ]
         }
-    }
-    ]
+    } ]
 }}

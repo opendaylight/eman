@@ -34,10 +34,12 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.EmanService;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.EoDeviceObject;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.EoDevices;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev170105.eodevices.EoDeviceEntry;
+/*
+import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev171208.EmanService;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev171208.EoDeviceObject;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev171208.EoDevices;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.eman.rev171208.eodevices.EoDeviceEntry;
+*/
 
 public class EmanSNMPBinding {
     private static final Logger LOG = LoggerFactory.getLogger(EmanProvider.class);
@@ -206,10 +208,10 @@ public class EmanSNMPBinding {
 	/* Reads eoPowerMeasurement attributes vis ODL SNMP API and writes to MD-SAL
 	    Currently rather inefficient as it loops through list of resources, reading sequentially
 	*/
+/*                
 	public EoDeviceEntry getDevicePwrMsrSNMP(String deviceIP, int key) {
  		LOG.info( "EmanSNMPBinding.getDevicePwrMsrSNMP: ");
  		
-/*                
         // Instantiate EoPowerMeasurement object
         EoPowerMeasurement pwrM = new EoPowerMeasurementBuilder()
             .setKey( new EoPowerMeasurementKey(key) )
@@ -225,9 +227,9 @@ public class EmanSNMPBinding {
             .setEoPowerOperState( Integer.parseInt( getEoAttrSNMP(deviceIP, eoPowerMeasurementAttrs[8]) ) )
 //            .setEoPowerStateEnterReason( Integer.parseInt( getEoAttrSNMP(deviceIP, eoPowerMeasurementAttrs[9]) ) )
             .build();
-*/            
         return null;
  
     }	    
+*/            
 
 }

@@ -6,13 +6,15 @@ terms of the Eclipse Public License v1.0 which accompanies this distribution,
 and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <parent>
-    <groupId>org.opendaylight.odlparent</groupId>
-    <artifactId>karaf4-parent</artifactId>
-    <version>2.0.5</version>
-    <relativePath/>
-  </parent>
   <modelVersion>4.0.0</modelVersion>
+
+   <parent>
+     <groupId>org.opendaylight.controller</groupId>
+     <artifactId>karaf-parent</artifactId>
+    <version>1.7.4-Boron-SR4</version>
+     <relativePath/>
+   </parent>
+
   <groupId>org.opendaylight.eman</groupId>
   <artifactId>eman-karaf</artifactId>
   <version>1.3.0-SNAPSHOT</version>
@@ -23,9 +25,11 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
   <prerequisites>
     <maven>3.1.1</maven>
   </prerequisites>
+
   <properties>
-    <karaf.localFeature>odl-eman-ui</karaf.localFeature>
+    <mdsal.model.version>0.9.4-Boron-SR4</mdsal.model.version>
   </properties>
+
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -37,6 +41,7 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
       </dependency>
     </dependencies>
   </dependencyManagement>
+
   <dependencies>
     <dependency>
       <!-- scope is compile so all features (there is only one) are installed
@@ -48,12 +53,14 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
 
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>features-eman</artifactId>
+      <artifactId>eman-features</artifactId>
+      <version>1.3.0-SNAPSHOT</version>
       <classifier>features</classifier>
       <type>xml</type>
       <scope>runtime</scope>
     </dependency>
   </dependencies>
+
   <!-- DO NOT install or deploy the karaf artifact -->
   <build>
     <plugins>
@@ -67,19 +74,4 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
     </plugins>
   </build>
 
-  <!--
-    Maven Site Configuration
-
-    The following configuration is necessary for
-    maven-site-plugin to correctly identify the correct deployment path for OpenDaylight
-    Maven sites.
-  -->
-  <url>${odl.site.url}/${project.groupId}/${stream}/${project.artifactId}/</url>
-
-  <distributionManagement>
-    <site>
-      <id>opendaylight-site</id>
-      <url>${nexus.site.url}/${project.artifactId}/</url>
-    </site>
-  </distributionManagement>
 </project>
